@@ -4,7 +4,7 @@ CONSOLE=$(PHP) bin/console
 COMPOSER=$(PHP) composer
 
 up:
-	@${COMPOSE} up -d
+	@${COMPOSE} up -d 
 
 down:
 	@${COMPOSE} down
@@ -20,5 +20,5 @@ migrate:
 
 fixtload:
 	@${CONSOLE} doctrine:fixtures:load
-	
+
 -include local.mk
