@@ -1,4 +1,6 @@
-1. добавить в конфигурацию doctrine.yaml, секция dbal
+# Выполнение Задания 2
+
+## 1. добавить в конфигурацию doctrine.yaml, секция dbal
 ```
 # настройки для связки в postgresql
 driver: 'pdo_pgsql'
@@ -14,7 +16,7 @@ docker exec study-on-postgres-1 psql -V
 docker compose exec postgres psql -V
 ```
 
-2. Создать базу данных для studyOn:
+## 2. Создать базу данных для studyOn:
 ```
 docker compose exec php bin/console doctrine:database:create
 ```
@@ -49,7 +51,7 @@ schema validate:
 
 ! Магия !
 
-3. создать слушателя для фикса создания схемы public:
+## 3. создать слушателя для фикса создания схемы public:
 фикс отсюда
 https://gist.github.com/vudaltsov/ec01012d3fe27c9eed59aa7fd9089cf7#file-fixpostgresqldefaultschemalistener-php
 FixPostgreSQLDefaultSchemaListener.php поместить в src/EventListener
@@ -65,7 +67,7 @@ FixPostgreSQLDefaultSchemaListener.php поместить в src/EventListener
 ```
 Для создания миграции, которая не применится, можно изменить ее название на произвольное.
 
-4. Создать миграции:
+## 4. Создать миграции:
 Для создания сущности можно добавить команду в local.mk:
 ```
 entity:
@@ -78,8 +80,12 @@ make migration
 make migrate
 ```
 
-5. Создание фикстур:
+## 5. Создание фикстур:
 Скачать зафисимость в контейнер с php:
 ```
 docker compose exec php composer require doctrine/doctrine-fixtures-bundle
 ```
+Команды для создания файла фикстур почему-то нет (?) :/
+
+Команда для накатывания фикстур: `make fixtload`
+
