@@ -6,12 +6,18 @@ server_version: '16.2'
 url: '%env(resolve:DATABASE_URL)%'
 ```
 Уточнить версию используемого postgresql:
-`docker exec study-on-postgres-1 psql -V`
+```
+docker exec study-on-postgres-1 psql -V
+```
 или 
-`docker compose exec postgres psql -V`
+```
+docker compose exec postgres psql -V
+```
 
 2. Создать базу данных для studyOn:
-`docker compose exec php bin/console doctrine:database:create`
+```
+docker compose exec php bin/console doctrine:database:create
+```
 Перейти в контейнер для проверки БД:
 ```
 sudo -E docker compose exec -it postgres bash
@@ -40,9 +46,26 @@ schema validate:
         * username: (имя пользователя машины)
         * pass: (пароль пользователя машины)
         * flag save pass: true
+
 ! Магия !
 
-3. Создать миграции:
+3. создать слушателя для фикса создания схемы public:
+фикс отсюда
+https://gist.github.com/vudaltsov/ec01012d3fe27c9eed59aa7fd9089cf7#file-fixpostgresqldefaultschemalistener-php
+FixPostgreSQLDefaultSchemaListener.php поместить в src/EventListener
+перед названием класса добавить 
+```
+#[AsDoctrineListener(event: ToolEvents::postGenerateSchema, connection: 'default')]
+```
+В конец файла services.yaml добавить:
+```
+    App\Doctrine\EventListener\FixPostgreSQLDefaultSchemaListener:
+        tags:
+            - { name: doctrine.event_listener, event: postGenerateSchema }
+```
+Для создания миграции, которая не применится, можно изменить ее название на произвольное.
+
+4. Создать миграции:
 Для создания сущности можно добавить команду в local.mk:
 ```
 entity:
@@ -52,4 +75,10 @@ entity:
 ```
 make migration
 make migrate
+```
+
+5. Создание фикстур:
+Скачать зафисимость в контейнер с php:
+```
+docker compose exec php composer require doctrine/doctrine-fixtures-bundle
 ```

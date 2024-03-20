@@ -14,9 +14,6 @@ class Lesson
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $course_id = null;
-
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
@@ -24,23 +21,15 @@ class Lesson
     private ?string $content = null;
 
     #[ORM\Column]
-    private ?int $Ñ‹Ñseq_number = null;
+    private ?int $seq_number = null;
+
+    #[ORM\ManyToOne(inversedBy: 'lessons')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Course $course = null;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getCourseId(): ?int
-    {
-        return $this->course_id;
-    }
-
-    public function setCourseId(int $course_id): static
-    {
-        $this->course_id = $course_id;
-
-        return $this;
     }
 
     public function getName(): ?string
@@ -67,14 +56,26 @@ class Lesson
         return $this;
     }
 
-    public function getÑ‹ÑseqNumber(): ?int
+    public function getseqNumber(): ?int
     {
-        return $this->Ñ‹Ñseq_number;
+        return $this->seq_number;
     }
 
-    public function setÑ‹ÑseqNumber(int $Ñ‹Ñseq_number): static
+    public function setseqNumber(int $seq_number): static
     {
-        $this->Ñ‹Ñseq_number = $Ñ‹Ñseq_number;
+        $this->seq_number = $seq_number;
+
+        return $this;
+    }
+
+    public function getCourse(): ?Course
+    {
+        return $this->course;
+    }
+
+    public function setCourse(?Course $course): static
+    {
+        $this->course = $course;
 
         return $this;
     }
