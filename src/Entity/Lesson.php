@@ -56,12 +56,12 @@ class Lesson
         return $this;
     }
 
-    public function getseqNumber(): ?int
+    public function getSeqNumber(): ?int
     {
         return $this->seq_number;
     }
 
-    public function setseqNumber(int $seq_number): static
+    public function setSeqNumber(int $seq_number): static
     {
         $this->seq_number = $seq_number;
 

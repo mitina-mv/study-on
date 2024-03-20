@@ -71,6 +71,7 @@ FixPostgreSQLDefaultSchemaListener.php поместить в src/EventListener
 entity:
 	@${CONSOLE} make:entity
 ```
+Для создания отношения урока к курсу тип поля нужно выбрать `relation`
 Создаем и накатываем миграции:
 ```
 make migration
