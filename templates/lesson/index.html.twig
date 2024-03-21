@@ -11,7 +11,7 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>Content</th>
-                <th>Seq_number</th>
+                <th>serialNumber</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -21,7 +21,7 @@
                 <td>{{ lesson.id }}</td>
                 <td>{{ lesson.name }}</td>
                 <td>{{ lesson.content }}</td>
-                <td>{{ lesson.seqNumber }}</td>
+                <td>{{ lesson.serialNumber }}</td>
                 <td>
                     <a href="{{ path('app_lesson_show', {'id': lesson.id}) }}">show</a>
                     <a href="{{ path('app_lesson_edit', {'id': lesson.id}) }}">edit</a>

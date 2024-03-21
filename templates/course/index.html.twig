@@ -8,32 +8,33 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Code</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>actions</th>
+                <th>Название</th>
+                <th>Сим. код</th>
+                <th>Описание</th>
             </tr>
         </thead>
         <tbody>
         {% for course in courses %}
             <tr>
-                <td>{{ course.id }}</td>
-                <td>{{ course.code }}</td>
-                <td>{{ course.title }}</td>
-                <td>{{ course.description }}</td>
                 <td>
+                    <a href="{{ path('app_course_show', {'id': course.id}) }}">
+                        {{ course.title }}
+                    </a>
+                </td>
+                <td>{{ course.code }}</td>
+                <td>{{ course.description }}</td>
+                {# <td>
                     <a href="{{ path('app_course_show', {'id': course.id}) }}">show</a>
                     <a href="{{ path('app_course_edit', {'id': course.id}) }}">edit</a>
-                </td>
+                </td> #}
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">Записей нееет!</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_course_new') }}">Create new</a>
+    <a href="{{ path('app_course_new') }}">+ Добавить</a>
 {% endblock %}

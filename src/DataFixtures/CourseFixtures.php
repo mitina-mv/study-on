@@ -61,7 +61,7 @@ class CourseFixtures extends Fixture
                 $lessonEntity->setName($lesson['name']);
                 $lessonEntity->setContent($lesson['description']);
                 $lessonEntity->setCourse($courseEntity);
-                $lessonEntity->setSeqNumber($key + 1);
+                $lessonEntity->setSerialNumber($key + 1);
 
                 $manager->persist($lessonEntity);
             }
