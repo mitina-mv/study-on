@@ -20,12 +20,12 @@ class Lesson
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
 
-    #[ORM\Column]
-    private ?int $seq_number = null;
-
     #[ORM\ManyToOne(inversedBy: 'lessons')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Course $course = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $serialNumber = null;
 
     public function getId(): ?int
     {
@@ -56,18 +56,6 @@ class Lesson
         return $this;
     }
 
-    public function getSeqNumber(): ?int
-    {
-        return $this->seq_number;
-    }
-
-    public function setSeqNumber(int $seq_number): static
-    {
-        $this->seq_number = $seq_number;
-
-        return $this;
-    }
-
     public function getCourse(): ?Course
     {
         return $this->course;
@@ -76,6 +64,18 @@ class Lesson
     public function setCourse(?Course $course): static
     {
         $this->course = $course;
+
+        return $this;
+    }
+
+    public function getSerialNumber(): ?int
+    {
+        return $this->serialNumber;
+    }
+
+    public function setSerialNumber(?int $serialNumber): static
+    {
+        $this->serialNumber = $serialNumber;
 
         return $this;
     }
