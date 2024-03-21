@@ -8,10 +8,13 @@ use App\Form\DataTransformer\CourseToEntityTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Range;
 
 class LessonType extends AbstractType
 {
@@ -32,7 +35,15 @@ class LessonType extends AbstractType
                 'required' => true,
                 'label' => 'Содержание урока',
             ])
-            ->add('serialNumber')
+            ->add('serialNumber', NumberType::class, [
+                'label' => 'Номер урока',
+                'constraints' => [
+                    new NotBlank(message: 'Номер урока не может быть пустым'),
+                    new Range(
+                        notInRangeMessage: 'Больше 1 000 и меньше 1 нельзя :(',
+                    ),
+                ]
+            ])
             ->add('course', EntityType::class, [
                 'class' => Course::class,
                 'choice_label' => 'title',
