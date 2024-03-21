@@ -10,10 +10,13 @@ use Doctrine\ORM\EntityManagerInterface;
 class CourseToEntityTransformer implements DataTransformerInterface
 {
     private $entityManager;
+    private $courseId;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    // TODO DataTransformer не должен принимать $courseId
+    public function __construct(EntityManagerInterface $entityManager, $courseId)
     {
         $this->entityManager = $entityManager;
+        $this->courseId = $courseId;
     }
 
     public function transform($course): ?int
@@ -23,20 +26,26 @@ class CourseToEntityTransformer implements DataTransformerInterface
         }
 
         return $course->getId();
+
     }
 
-    public function reverseTransform($courseId): ?Course
-    {
-        if (!$courseId) {
+    public function reverseTransform($value): ?Course
+    {                
+        if ($this->courseId) {
+            $course = $this->entityManager
+                ->getRepository(Course::class)
+                ->find($this->courseId);
+
+            if (null === $course) {
+                throw new TransformationFailedException(sprintf(
+                    'Курс с id "%s" не существует!',
+                    $this->courseId
+                ));
+            }
+
+            return $course;
+        } else {
             return null;
         }
-
-        $course = $this->entityManager->getRepository(Course::class)->find($courseId);
-
-        if (null === $course) {
-            throw new TransformationFailedException(sprintf('The course with id "%s" does not exist!', $courseId));
-        }
-
-        return $course;
     }
 }
