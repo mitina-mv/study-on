@@ -33,7 +33,10 @@ class LessonController extends AbstractController
             $entityManager->persist($lesson);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_lesson_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute(
+                'app_course_show', ['id' => $lesson->getCourse()->getId()],
+                Response::HTTP_SEE_OTHER
+            );
         }
 
         return $this->render('lesson/new.html.twig', [
@@ -59,7 +62,10 @@ class LessonController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_lesson_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute(
+                'app_course_show', ['id' => $lesson->getCourse()->getId()],
+                Response::HTTP_SEE_OTHER
+            );
         }
 
         return $this->render('lesson/edit.html.twig', [
@@ -74,6 +80,11 @@ class LessonController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$lesson->getId(), $request->request->get('_token'))) {
             $entityManager->remove($lesson);
             $entityManager->flush();
+
+            return $this->redirectToRoute(
+                'app_course_show', ['id' => $lesson->getCourse()->getId()],
+                Response::HTTP_SEE_OTHER
+            );
         }
 
         return $this->redirectToRoute('app_lesson_index', [], Response::HTTP_SEE_OTHER);

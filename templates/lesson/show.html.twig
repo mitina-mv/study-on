@@ -1,43 +1,30 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-{{ lesson.name }}
+{{ lesson.name }} | {{ lesson.course.title }} | StudyOn
 {% endblock %}
 
 {% block body %}
+    <h1>{{ lesson.serialNumber }}. {{ lesson.name }}</h1>
 
-{# задание: 
-1. На странице урока выводим название урока в заголовке, название курса (ссылкой на страницу курса), действия (редактировать, удалить) и контент
-2. Доработать, чтобы после создания и удаления урока возвращал на страницу курса
-3. Не забываем задавать заголовок страницы и title. В title хорошим тоном считается указывать путь. Например, на странице урока в title выводить “Название урока / Название курса / StudyOn”.
+    <div>
+        <b>Название курса</b>
+        <p>{{ lesson.course.title }}</p>
+    </div>
 
- #}
-    <h1>{{ lesson.name }}</h1>
+    <div>
+        <b>Действия</b>
+        <a href="{{ path('app_lesson_edit', {'id': lesson.id}) }}">Редактировать</a>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ lesson.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ lesson.name }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ lesson.content }}</td>
-            </tr>
-            <tr>
-                <th>serialNumber</th>
-                <td>{{ lesson.serialNumber }}</td>
-            </tr>
-        </tbody>
-    </table>
+        {{ include('lesson/_delete_form.html.twig') }}
+    </div>
 
-    <a href="{{ path('app_lesson_index') }}">back to list</a>
+    <div>
+        <b>Контент</b>
+        <p>{{ lesson.content }}</p>
+    </div>
 
-    <a href="{{ path('app_lesson_edit', {'id': lesson.id}) }}">edit</a>
+    <a href="{{ path('app_course_show', {'id': lesson.course.id}) }}">Назад к курсу</a>
 
-    {{ include('lesson/_delete_form.html.twig') }}
+    
 {% endblock %}

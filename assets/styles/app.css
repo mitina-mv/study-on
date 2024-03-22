@@ -1,3 +1,42 @@
 body {
-    background-color: skyblue;
+    background-color: rgb(221, 241, 250);
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: #fff;
+    padding: 1rem 2rem;
+    box-shadow: #c1bcff85 1px 1px 20px;
+    font-size: 1.3em;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5em;
+}
+
+p.logo {
+    letter-spacing: 1px;
+    margin: 0;
+    font-weight: bold;
+    font-family: fantasy;
+    color: #401ae4;
+}
+
+nav {
+    display: flex;
+    gap: 1em;
+}
+
+nav a {
+    text-decoration: none;
+}
+
+nav a:hover {
+    color: #000;
+    transition: .3s;
+}
+
+main {
+    padding: 1rem 2rem;
 }

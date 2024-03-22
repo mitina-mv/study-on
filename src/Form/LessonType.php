@@ -30,7 +30,9 @@ class LessonType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
+            ->add('name', null, [
+                'label' => 'Название',
+            ])
             ->add('content', TextareaType::class, [
                 'required' => true,
                 'label' => 'Содержание урока',
@@ -41,11 +43,14 @@ class LessonType extends AbstractType
                     new NotBlank(message: 'Номер урока не может быть пустым'),
                     new Range(
                         notInRangeMessage: 'Больше 1 000 и меньше 1 нельзя :(',
+                        min: 1,
+                        max: 10000,
                     ),
                 ]
             ])
             ->add('course', EntityType::class, [
                 'class' => Course::class,
+                'label' => 'КУРС',
                 'choice_label' => 'title',
             ])
         ;  
