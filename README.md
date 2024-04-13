@@ -4,5 +4,4 @@
 
 1. [Задание 1](/readme/lr1.md) - Создание проектов, настройка окружения
 2. [Задание 2](/readme/lr2.md) - Модель данных и формы для курсов и уроков
-
-https://docs.google.com/document/d/1TJWj2YThSuLsDviYiXnhQWpCsCBiLUCRCPl5j4NbbKQ/edit#heading=h.7ety17khqqjp
+3. [Задание 3](/readme/lr3.md) - Frontend в Symfony

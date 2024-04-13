@@ -8,6 +8,7 @@ use App\Form\DataTransformer\CourseToEntityTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -32,12 +33,15 @@ class LessonType extends AbstractType
         $builder
             ->add('name', null, [
                 'label' => 'Название',
+                'attr' => ['class' => 'form-control']
             ])
             ->add('content', TextareaType::class, [
                 'required' => true,
+                'attr' => ['class' => 'form-control'],
                 'label' => 'Содержание урока',
             ])
             ->add('serialNumber', NumberType::class, [
+                'attr' => ['class' => 'form-control'],
                 'label' => 'Номер урока',
                 'constraints' => [
                     new NotBlank(message: 'Номер урока не может быть пустым'),
@@ -48,36 +52,11 @@ class LessonType extends AbstractType
                     ),
                 ]
             ])
-            ->add('course', EntityType::class, [
-                'class' => Course::class,
-                'label' => 'КУРС',
-                'choice_label' => 'title',
+            ->add('course', HiddenType::class, [
+                'data' => null,
+                'disabled' => true
             ])
-        ;  
-
-        // TODO решение должно полностью реализовываться через Transformer
-        // Если параметр course_id передан, попытаемся получить курс с этим ID
-        $request = $this->requestStack->getCurrentRequest();
-        $courseId = $request->query->get('course_id');
-
-        if ($courseId) {
-            if($request->getMethod() == 'POST')
-            {
-                $builder->get('course')->addModelTransformer(new CourseToEntityTransformer($this->entityManager, $courseId));
-            } else {
-                $course = $this->entityManager->getRepository(Course::class)->find($courseId);
-
-                if ($course) {
-                    $builder->add('course', EntityType::class, [
-                        'class' => Course::class,
-                        'choice_label' => 'title',
-                        'choice_value' => 'id',
-                        'data' => $course,
-                        'disabled' => true, // блокирую поле
-                    ]);
-                }
-            }
-        }
+        ; 
     }
 
     public function configureOptions(OptionsResolver $resolver): void

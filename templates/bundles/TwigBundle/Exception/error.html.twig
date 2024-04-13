@@ -1,0 +1,17 @@
+{# templates/bundles/TwigBundle/Exception/error5хх.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %} Ошибка {{ status_code }}{% endblock %}
+
+{% block body %}
+    <div class="row mx-5 mt-3 p-4 justify-content-center">
+        <h1 class="text-center md-3 text-danger">Ошибка {{ status_code }}</h1>
+        <p class="fs-5 text-center">
+            Возникла очень неприятная ситуация. Попробуйте выполнить запрос позже.<br />
+            Приглашаем Вас вернуться на 
+            <a class="text-decoration-none" href="{{ path('app_course_index') }}">
+            главную страницу
+            </a>.
+        </p>
+    </div>
+{% endblock %}
