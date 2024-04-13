@@ -20,5 +20,8 @@ migrate:
 
 fixtload:
 	@${CONSOLE} doctrine:fixtures:load
+	
+require:
+	@${COMPOSER} require $2
 
 -include local.mk
