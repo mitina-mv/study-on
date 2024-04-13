@@ -1,4 +1,6 @@
-0. Доработки ЛР 2 по замечаниям:
+# Выполнение Задания 3
+
+## 0. Доработки ЛР 2 по замечаниям:
     1. Сортировка списка уроков на детальной странице курса
 
     Убрала сортирувку из twig-шаблона, в сущности Course прописала: 
@@ -8,7 +10,7 @@
     ```
     2. Исправление формы создания урока: см файлы Lesson*.php
 
-1. Установка node + yarn и Encore
+## 1. Установка node + yarn и Encore
     1. Установка node: в docker-compose.yml дописала:
     ```
     node:
@@ -40,7 +42,7 @@
 
     Затем запускаем `docker compose run node yarn install` и `docker compose run node yarn add @symfony/webpack-encore --dev` - происходит какая-то магия и что-то success и Done. А значит все в порядке )
 
-3. Настройка Encore и подключение Bootstrap
+## 3. Настройка Encore и подключение Bootstrap
     1. удалила `.enableBuildNotifications` в файле webpack.config.js
     2. устанавливаем sass `docker compose run node yarn add sass-loader@^13.0.0 sass --dev`
     3. устанавливаем bootstrap и его зависимость `docker compose run node yarn add bootstrap @popperjs/core --dev` 
@@ -49,6 +51,6 @@
 
       Подробнее в файлах: [app.js](/assets/app.js) и [app.scss](/assets/styles/app.scss)
 
-4. Разработка страниц ошибки
+## 4. Разработка страниц ошибки
     1. Действовать по алгоритму здесь https://symfony.com/doc/current/controller/error_pages.html#overriding-the-default-error-templates, п.1
     2. Страницы ошибок можно просматривать без перехода в прод-режим на страницах `/_error/{statusCode}`
