@@ -40,3 +40,7 @@
     5. в app.scss добавляем `@import "~bootstrap/scss/bootstrap";`
 
     Подробнее в файлах: [app.js](/assets/app.js) и [app.scss](/assets/styles/app.scss)
+
+4. Разработка страниц ошибки
+    1. Действовать по алгоритму здесь https://symfony.com/doc/current/controller/error_pages.html#overriding-the-default-error-templates, п.1
+    2. Страницы ошибок можно просматривать без перехода в прод-режим на страницах `/_error/{statusCode}`
