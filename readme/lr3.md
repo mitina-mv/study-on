@@ -1,17 +1,25 @@
 0. Доработки ЛР 2 по замечаниям:
+    1. Сортировка списка уроков на детальной странице курса
+
+    Убрала сортирувку из twig-шаблона, в сущности Course прописала: 
+    ```
+    #[ORM\OrderBy(['serialNumber' => "asc"])]
+      private Collection $lessons;
+    ```
+    2. 
 
 1. Установка node + yarn и Encore
     1. Установка node: в docker-compose.yml дописала:
     ```
-      node:
-    image: node:alpine
-    environment:
-      - YARN_CACHE_FOLDER=/yarn
-    working_dir: /app
-    user: ${UID:-1000}:${GID:-1000}
-    volumes:
-      - ${PWD}:/app
-      - ${HOME}/.yarn:/yarn
+    node:
+        image: node:alpine
+        environment:
+        - YARN_CACHE_FOLDER=/yarn
+        working_dir: /app
+        user: ${UID:-1000}:${GID:-1000}
+        volumes:
+        - ${PWD}:/app
+        - ${HOME}/.yarn:/yarn
     ```
 
     2. Проверить, что есть папка yarn в директории пользователя
@@ -39,7 +47,7 @@
     4. в app.js добавляем `import './styles/app.scss';` сам файл стилей нужно переименовать с .css на .scss
     5. в app.scss добавляем `@import "~bootstrap/scss/bootstrap";`
 
-    Подробнее в файлах: [app.js](/assets/app.js) и [app.scss](/assets/styles/app.scss)
+      Подробнее в файлах: [app.js](/assets/app.js) и [app.scss](/assets/styles/app.scss)
 
 4. Разработка страниц ошибки
     1. Действовать по алгоритму здесь https://symfony.com/doc/current/controller/error_pages.html#overriding-the-default-error-templates, п.1

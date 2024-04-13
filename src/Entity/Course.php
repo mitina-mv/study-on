@@ -27,6 +27,7 @@ class Course
     private ?string $description = null;
 
     #[ORM\OneToMany(targetEntity: Lesson::class, mappedBy: 'course', orphanRemoval: true)]
+    #[ORM\OrderBy(['serialNumber' => "asc"])]
     private Collection $lessons;
 
     public function __construct()
