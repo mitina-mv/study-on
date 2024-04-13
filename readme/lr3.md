@@ -28,15 +28,15 @@
 
     Поэтому запускаю `docker compose exec php composer require encore`, устанавливается зависимость symfony/webpack-encore-bundle. 
 
-    Инструкции после загрузки: 
-    ```
-     symfony/webpack-encore-bundle  instructions:
-        * Install NPM and run npm install
-        * Compile your assets: npm run dev
-        * Or start the development server: npm run watch 
-    ```
+    Инструкции после загрузки не актуальны, так как мы используем yarn. Что такое этот ваш yarn? Это менеджер пакетов, аналог npm. Если сделать `docker ps -a` можно увидеть, что наш контейнер с node не работает. Действительно, он был добавлен для загрузки зависимостей для фронта и запуска фронта. работающим все время, как например, БД, нода нам не нужна, а когда нужна, мы запускаем `docker compose run node` и пишем команду на выполнение в контейнере.
 
     Затем запускаем `docker compose run node yarn install` и `docker compose run node yarn add @symfony/webpack-encore --dev` - происходит какая-то магия и что-то success и Done. А значит все в порядке )
 
-3. Настройка
+3. Настройка Encore и подключение Bootstrap
     1. удалила `.enableBuildNotifications` в файле webpack.config.js
+    2. устанавливаем sass `docker compose run node yarn add sass-loader@^13.0.0 sass --dev`
+    3. устанавливаем bootstrap и его зависимость `docker compose run node yarn add bootstrap @popperjs/core --dev` 
+    4. в app.js добавляем `import './styles/app.scss';` сам файл стилей нужно переименовать с .css на .scss
+    5. в app.scss добавляем `@import "~bootstrap/scss/bootstrap";`
+
+    Подробнее в файлах: [app.js](/assets/app.js) и [app.scss](/assets/styles/app.scss)
