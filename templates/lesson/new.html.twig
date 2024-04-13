@@ -1,9 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Lesson{% endblock %}
+{% block title %}Новый урок{% endblock %}
 
 {% block body %}
-    <h1>Create new Lesson</h1>
+    <h1>Создание нового урока</h1>
+    <p class="lead">
+        Вы создаете новый урок для курса "{{ lesson.course.title }}"
+    </p>
 
     {{ include('lesson/_form.html.twig') }}
 {% endblock %}

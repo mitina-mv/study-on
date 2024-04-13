@@ -15,18 +15,16 @@ class CourseType extends AbstractType
     {
         $builder
             ->add('code', null, [
+                'attr' => ['class' => 'form-control'],
                 'label' => 'МногоСимвольный код',
-                // TODO при использовании возникает доп ошибка (?)
-                // текст ошибки: This value should be of type object.
-                // 'constraints' => [
-                //     new UniqueEntity(fields: 'code', message: 'Выберите другой символьный код'),
-                // ],
             ])
             ->add('title', null, [
+                'attr' => ['class' => 'form-control'],
                 'label' => 'Название',
 
             ])
             ->add('description', TextareaType::class, [
+                'attr' => ['class' => 'form-control'],
                 'label' => 'Продающее описание',
             ])
         ;

@@ -6,7 +6,7 @@
     #[ORM\OrderBy(['serialNumber' => "asc"])]
       private Collection $lessons;
     ```
-    2. Исправление формы создания урока
+    2. Исправление формы создания урока: см файлы Lesson*.php
 
 1. Установка node + yarn и Encore
     1. Установка node: в docker-compose.yml дописала:

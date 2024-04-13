@@ -5,32 +5,21 @@
 {% block body %}
     <h1>Список курсов</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Название</th>
-                <th>Сим. код</th>
-                <th>Описание</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="container">
+        <div class="row g-4 mb-3 mt-2">
         {% for course in courses %}
-            <tr>
-                <td>
-                    <a href="{{ path('app_course_show', {'id': course.id}) }}">
-                        {{ course.title }}
-                    </a>
-                </td>
-                <td>{{ course.code }}</td>
-                <td>{{ course.description }}</td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">Записей нееет!</td>
-            </tr>
+            <div class="col-6">
+                <div class='card'> 
+                <div class="card-body">               
+                    <h5 class="card-title">{{ course.title }}</h5>
+                    <p class="card-text text-truncate-with-dots">{{ course.description }}</p>
+                    <a href="{{ path('app_course_show', {'id': course.id}) }}" class="btn btn-primary">Подробнее</a>
+                </div>
+                </div>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
+        </div>
+    </div>
 
-    <a href="{{ path('app_course_new') }}">+ Добавить</a>
+    <a class='btn btn-success' href="{{ path('app_course_new') }}">+ Добавить</a>
 {% endblock %}

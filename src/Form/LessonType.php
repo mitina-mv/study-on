@@ -33,12 +33,15 @@ class LessonType extends AbstractType
         $builder
             ->add('name', null, [
                 'label' => 'Название',
+                'attr' => ['class' => 'form-control']
             ])
             ->add('content', TextareaType::class, [
                 'required' => true,
+                'attr' => ['class' => 'form-control'],
                 'label' => 'Содержание урока',
             ])
             ->add('serialNumber', NumberType::class, [
+                'attr' => ['class' => 'form-control'],
                 'label' => 'Номер урока',
                 'constraints' => [
                     new NotBlank(message: 'Номер урока не может быть пустым'),
