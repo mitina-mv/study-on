@@ -2,6 +2,7 @@
 
 namespace App\Tests;
 
+use App\Entity\Course;
 use Symfony\Component\HttpFoundation\Response;
 
 class CourseFunctionaltest extends AbstractTest
@@ -28,7 +29,8 @@ class CourseFunctionaltest extends AbstractTest
     public function testOkDetailCoursePage(): void
     {
         $client = AbstractTest::createTestClient();
-        $url = '/courses/1';
+        $course = $this->getEntityManager()->getRepository(Course::class)->findAll()[0];
+        $url = '/courses/' . $course->getId();
 
         $client->request('GET', $url);
 
@@ -48,7 +50,7 @@ class CourseFunctionaltest extends AbstractTest
     /**
      * Проверка заполнения формы создания нового курса
      */
-    public function testCreateCourseForm(): void
+    public function testCreateOkCourseForm(): void
     {
         $client = self::createTestClient();
         $crawler = $client->request('GET', '/courses/new');
@@ -75,7 +77,8 @@ class CourseFunctionaltest extends AbstractTest
     public function testDeleteCourse(): void
     {
         $client = AbstractTest::createTestClient();
-        $url = '/courses/3';
+        $course = $this->getEntityManager()->getRepository(Course::class)->findAll()[0];
+        $url = '/courses/' . $course->getId();
 
         $crawler = $client->request('GET', $url);
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
@@ -96,7 +99,14 @@ class CourseFunctionaltest extends AbstractTest
     public function testEditCourseForm(): void
     {
         $client = self::createTestClient();
-        $crawler = $client->request('GET', '/courses/2/edit');
+        
+        $course = $this->getEntityManager()->getRepository(Course::class)->findAll()[0];
+        $url = '/courses/' . $course->getId();
+
+        $crawler = $client->request(
+            'GET',
+            "{$url}/edit"
+        );
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 
@@ -108,7 +118,7 @@ class CourseFunctionaltest extends AbstractTest
         $client->submit($form);
 
         $this->assertTrue($client->getResponse()->isRedirect());
-        $this->assertResponseRedirects('/courses/2');
+        $this->assertResponseRedirects($url);
     }
 
     /**
@@ -117,11 +127,69 @@ class CourseFunctionaltest extends AbstractTest
     public function testNavigateToLessonPage(): void
     {
         $client = self::createTestClient();
-        $crawler = $client->request('GET', '/courses/2');
+        $course = $this->getEntityManager()->getRepository(Course::class)->findAll()[0];
+        $url = '/courses/' . $course->getId();
+
+        $crawler = $client->request('GET', $url);
 
         $lessonLink = $crawler->filter('a.lesson-item')->first()->link();
         $crawler = $client->click($lessonLink);
 
         $this->assertResponseOk();
+    }
+
+    /**
+     * Проверка заполнения формы создания нового курса (невалидные данные)
+     */
+    public function testCreateErrorCourseForm(): void
+    {
+        $client = self::createTestClient();
+        $crawler = $client->request('GET', '/courses/new');
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+
+        // неуникальный код
+        $form = $crawler->selectButton('Сохранить')->form();
+        $form['course[title]'] = 'Название курса';
+        $form['course[description]'] = 'Описание курса';
+        $form['course[code]'] = 'js';
+
+        $client->submit($form);
+        $this->assertResponseCode(422);
+
+        // сравнение текста ошибки
+        $this->assertSelectorTextContains(
+            'li',
+            'Символьный код плохой!'
+        );
+
+        // пустой код
+        $form = $crawler->selectButton('Сохранить')->form();
+        $form['course[title]'] = 'Название курса';
+        $form['course[description]'] = 'Описание курса';
+        $form['course[code]'] = '';
+
+        $client->submit($form);
+        $this->assertResponseCode(422);
+
+        // сравнение текста ошибки
+        $this->assertSelectorTextContains(
+            'li',
+            'Символьный код не может быть пустым'
+        );
+
+        // пустое название
+        $form = $crawler->selectButton('Сохранить')->form();
+        $form['course[title]'] = '';
+        $form['course[description]'] = 'Описание курса';
+        $form['course[code]'] = 'code1';
+
+        $client->submit($form);
+        $this->assertResponseCode(422);
+
+        $this->assertSelectorTextContains(
+            'li',
+            'Название курса не может быть пустым'
+        );
     }
 }
