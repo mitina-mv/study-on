@@ -24,4 +24,7 @@ fixtload:
 require:
 	@${COMPOSER} require $2
 
+phpunit:
+	@${PHP} bin/phpunit
+
 -include local.mk
