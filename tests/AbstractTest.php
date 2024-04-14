@@ -9,6 +9,7 @@ use App\DataFixtures\CourseFixtures;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DomCrawler\Crawler;
@@ -16,19 +17,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 abstract class AbstractTest extends WebTestCase
 {
-    protected static $client = null;
+    protected static ?KernelBrowser $client = null;
 
-    protected static function createTestClient(
-        $reinitialize = false,
-        array $options = [],
-        array $server = []
-    ) {
-        if (!static::$client || $reinitialize) {
+    protected static function createTestClient(array $options = [], array $server = []): KernelBrowser
+    {
+        if (!static::$client) {
             static::$client = static::createClient($options, $server);
         }
-
-        // core is loaded (for tests without calling of getClient(true))
-        static::$client->getKernel()->boot();
 
         return static::$client;
     }
