@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class CourseType extends AbstractType
 {
@@ -17,10 +18,16 @@ class CourseType extends AbstractType
             ->add('code', null, [
                 'attr' => ['class' => 'form-control'],
                 'label' => 'МногоСимвольный код',
+                'constraints' => [
+                    new NotBlank(message: 'Символьный код не может быть пустым'),
+                ],
             ])
             ->add('title', null, [
                 'attr' => ['class' => 'form-control'],
                 'label' => 'Название',
+                'constraints' => [
+                    new NotBlank(message: 'Название курса не может быть пустым'),
+                ],
 
             ])
             ->add('description', TextareaType::class, [
