@@ -11,7 +11,7 @@
     <ul class="list-group">
         {% for lesson in course.lessons %}
             <li>
-            <a href="{{ path('app_lesson_show', {'id': lesson.id}) }}" class="mb-1 list-group-item list-group-item-action">
+            <a href="{{ path('app_lesson_show', {'id': lesson.id}) }}" class="mb-1 list-group-item list-group-item-action lesson-item">
                 {{ lesson.serialNumber }}. 
                 {{ lesson.name }}
             </a>
