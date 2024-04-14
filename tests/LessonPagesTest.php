@@ -5,7 +5,7 @@ namespace App\Tests;
 use App\DataFixtures\CourseFixtures;
 use App\Entity\Course;
 
-class CoursePagesTest extends AbstractTest
+class LessonPagesTest extends AbstractTest
 {
     protected function getFixtures(): array
     {
@@ -14,13 +14,12 @@ class CoursePagesTest extends AbstractTest
     
     public function urlProviderSuccessful(): \Generator
     {
-        yield ['/courses/'];
-        yield ['/courses/new'];
-
         $course = $this->getEntityManager()->getRepository(Course::class)->findAll()[0];
-
-        yield ["/courses/{$course->getId()}"];
-        yield ["/courses/{$course->getId()}/edit"];
+        $lesson = $course->getLessons()->first();
+        
+        yield ['/lessons/new/' . $course->getId()];
+        yield ['/lessons/' . $lesson->getId()];
+        yield ["/lessons/{$lesson->getId()}/edit"];
     }
     /**
      * Тест на доступность страниц
@@ -35,9 +34,9 @@ class CoursePagesTest extends AbstractTest
 
     public function urlProviderNotFound(): \Generator
     {
-        yield ['/123/'];
-        yield ['/courses/1000'];
-        yield ['/courses/1000/edit'];
+        yield ['/lessons/'];
+        yield ['/lessons/1000'];
+        yield ['/lessons/1000/edit'];
     }
 
     /**
@@ -46,19 +45,8 @@ class CoursePagesTest extends AbstractTest
      */
     public function testPageNotFound($url): void
     {
-        $client = self::getClient();
+        $client = self::createTestClient();
         $client->request('GET', $url);
         $this->assertResponseNotFound();
-    }
-
-    /**
-     * Осуществление переадрессации с главной страницы / на /courses
-     */
-    public function testRedirectToCoursesPage(): void
-    {
-        $client = self::createTestClient();
-        $client->request('GET', '/');
-
-        $this->assertResponseRedirects('/courses', 301);
     }
 }

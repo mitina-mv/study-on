@@ -19,12 +19,16 @@ abstract class AbstractTest extends WebTestCase
     protected static $client = null;
 
     protected static function createTestClient(
+        $reinitialize = false,
         array $options = [],
         array $server = []
     ) {
-        if (!static::$client) {
+        if (!static::$client || $reinitialize) {
             static::$client = static::createClient($options, $server);
         }
+
+        // core is loaded (for tests without calling of getClient(true))
+        static::$client->getKernel()->boot();
 
         return static::$client;
     }
@@ -55,9 +59,7 @@ abstract class AbstractTest extends WebTestCase
      */
     protected function getFixtures(): array
     {
-        return [
-            CourseFixtures::class
-        ];
+        return [];
     }
 
     /**

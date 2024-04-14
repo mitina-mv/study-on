@@ -27,4 +27,7 @@ require:
 phpunit:
 	@${PHP} bin/phpunit
 
+test:
+	@${PHP} bin/phpunit $2
+
 -include local.mk

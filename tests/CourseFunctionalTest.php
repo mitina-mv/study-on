@@ -2,11 +2,16 @@
 
 namespace App\Tests;
 
+use App\DataFixtures\CourseFixtures;
 use App\Entity\Course;
 use Symfony\Component\HttpFoundation\Response;
 
 class CourseFunctionaltest extends AbstractTest
 {
+    protected function getFixtures(): array
+    {
+        return [CourseFixtures::class];
+    }
     /**
      * Проверка наличия ссылки для перехода на детальную страницу курса
      */
@@ -28,7 +33,7 @@ class CourseFunctionaltest extends AbstractTest
      */
     public function testOkDetailCoursePage(): void
     {
-        $client = AbstractTest::createTestClient();
+        $client = self::createTestClient();
         $course = $this->getEntityManager()->getRepository(Course::class)->findAll()[0];
         $url = '/courses/' . $course->getId();
 
@@ -76,7 +81,7 @@ class CourseFunctionaltest extends AbstractTest
      */
     public function testDeleteCourse(): void
     {
-        $client = AbstractTest::createTestClient();
+        $client = self::createTestClient();
         $course = $this->getEntityManager()->getRepository(Course::class)->findAll()[0];
         $url = '/courses/' . $course->getId();
 
