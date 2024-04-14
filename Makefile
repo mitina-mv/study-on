@@ -27,7 +27,4 @@ require:
 phpunit:
 	@${PHP} bin/phpunit
 
-reset-sequences:
-	@${CONSOLE} app:reset-sequences
-
 -include local.mk

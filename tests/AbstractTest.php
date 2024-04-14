@@ -17,9 +17,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 abstract class AbstractTest extends WebTestCase
 {
-    protected static ?KernelBrowser $client = null;
+    protected static $client;
 
-    protected static function createTestClient(array $options = [], array $server = []): KernelBrowser
+    protected static function createTestClient(array $options = [], array $server = [])
     {
         if (!static::$client) {
             static::$client = static::createClient($options, $server);

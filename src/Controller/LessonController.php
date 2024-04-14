@@ -22,8 +22,6 @@ class LessonController extends AbstractController
         $form = $this->createForm(LessonType::class, $lesson);
         $form->handleRequest($request);
 
-        // dd($request->get('course_id'));
-
         // получаем курс по ID
         $course = $entityManager->getRepository(Course::class)
             ->find($request->get('course_id'));
