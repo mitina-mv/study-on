@@ -14,12 +14,9 @@ class LessonPagesTest extends AbstractTest
     
     public function urlProviderSuccessful(): \Generator
     {
-        $course = $this->getEntityManager()->getRepository(Course::class)->findAll()[0];
-        $lesson = $course->getLessons()->first();
-        
-        yield ['/lessons/new/' . $course->getId()];
-        yield ['/lessons/' . $lesson->getId()];
-        yield ["/lessons/{$lesson->getId()}/edit"];
+        yield ['/lessons/new/3'];
+        yield ['/lessons/2'];
+        yield ["/lessons/2/edit"];
     }
     /**
      * Тест на доступность страниц

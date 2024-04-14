@@ -16,11 +16,8 @@ class CoursePagesTest extends AbstractTest
     {
         yield ['/courses/'];
         yield ['/courses/new'];
-
-        $course = $this->getEntityManager()->getRepository(Course::class)->findAll()[0];
-
-        yield ["/courses/{$course->getId()}"];
-        yield ["/courses/{$course->getId()}/edit"];
+        yield ["/courses/2"];
+        yield ["/courses/2/edit"];
     }
     /**
      * Тест на доступность страниц
