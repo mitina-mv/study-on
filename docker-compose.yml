@@ -44,3 +44,8 @@ services:
     volumes:
       - ${PWD}:/app
       - ${HOME}/.yarn:/yarn
+networks:
+  default:
+    external: true
+    name: billing_network     
+      
