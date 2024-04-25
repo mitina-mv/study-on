@@ -2,14 +2,23 @@
 
 namespace App\Tests;
 
+use App\Command\ResetSequencesCommand;
 use App\DataFixtures\CourseFixtures;
 use App\Entity\Course;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\HttpFoundation\Response;
 
 class CourseFunctionaltest extends AbstractTest
 {
     protected function getFixtures(): array
     {
+        // обнуление сиквансов перед загрузкой фикстур
+        $command_reset_seq = new ResetSequencesCommand($this->getEntityManager()->getConnection());
+        $input = new ArrayInput([]);
+        $output = new NullOutput();
+        $command_reset_seq->run($input, $output);
+
         return [CourseFixtures::class];
     }
     /**
@@ -34,8 +43,7 @@ class CourseFunctionaltest extends AbstractTest
     public function testOkDetailCoursePage(): void
     {
         $client = self::createTestClient();
-        $course = $this->getEntityManager()->getRepository(Course::class)->findAll()[0];
-        $url = '/courses/' . $course->getId();
+        $url = '/courses/1';
 
         $client->request('GET', $url);
 
@@ -82,8 +90,7 @@ class CourseFunctionaltest extends AbstractTest
     public function testDeleteCourse(): void
     {
         $client = self::createTestClient();
-        $course = $this->getEntityManager()->getRepository(Course::class)->findAll()[0];
-        $url = '/courses/' . $course->getId();
+        $url = '/courses/1';
 
         $crawler = $client->request('GET', $url);
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
@@ -104,9 +111,7 @@ class CourseFunctionaltest extends AbstractTest
     public function testEditCourseForm(): void
     {
         $client = self::createTestClient();
-        
-        $course = $this->getEntityManager()->getRepository(Course::class)->findAll()[0];
-        $url = '/courses/' . $course->getId();
+        $url = '/courses/1';
 
         $crawler = $client->request(
             'GET',
@@ -132,8 +137,7 @@ class CourseFunctionaltest extends AbstractTest
     public function testNavigateToLessonPage(): void
     {
         $client = self::createTestClient();
-        $course = $this->getEntityManager()->getRepository(Course::class)->findAll()[0];
-        $url = '/courses/' . $course->getId();
+        $url = '/courses/1';
 
         $crawler = $client->request('GET', $url);
 

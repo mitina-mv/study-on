@@ -2,13 +2,22 @@
 
 namespace App\Tests;
 
+use App\Command\ResetSequencesCommand;
 use App\DataFixtures\CourseFixtures;
 use App\Entity\Course;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\NullOutput;
 
 class LessonPagesTest extends AbstractTest
 {
     protected function getFixtures(): array
     {
+        // обнуление сиквансов перед загрузкой фикстур
+        $command_reset_seq = new ResetSequencesCommand($this->getEntityManager()->getConnection());
+        $input = new ArrayInput([]);
+        $output = new NullOutput();
+        $command_reset_seq->run($input, $output);
+
         return [CourseFixtures::class];
     }
     
