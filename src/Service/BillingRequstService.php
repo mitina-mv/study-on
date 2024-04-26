@@ -10,7 +10,7 @@ class BillingRequstService
     public static function post(
         string $url,
         string $data = null,
-        $token = null
+        string $token = null
     ) : array {
         $curl = curl_init($url);
         $options = [
@@ -33,6 +33,33 @@ class BillingRequstService
                 $data
             );
         }
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+
+        if ($response === false) {
+            throw new BillingUnavailableException('Сервис временно недоступен.');
+        }
+        
+        return json_decode($response, true, 512, JSON_THROW_ON_ERROR);
+    }
+
+    public static function get(
+        string $url,
+        string $token = null
+    ) : array {
+        $curl = curl_init($url);
+        $options = [
+            'Content-Type: application/json',
+            'Accept: application/json'
+        ];
+
+        if ($token !== null) {
+            $options[] = 'Authorization: Bearer ' . $token;
+        }
+
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $options);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
         $response = curl_exec($curl);
         curl_close($curl);

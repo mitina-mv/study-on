@@ -16,11 +16,16 @@
     <body>
         <header>
             <p class='logo'>StudyOn</p>
+
             <nav>
                 <div>
                     <a href="{{ path('app_course_index') }}">Курсы</a>
                 </div>
             </nav>
+
+            <a class='profile-icon' href="{{ path('app_profile') }}">
+                <img src='/images/user.png' />
+            </a>
         </header>
         <main class='container'>
             {% block body %}{% endblock %}
