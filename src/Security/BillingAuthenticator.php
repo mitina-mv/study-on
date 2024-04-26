@@ -36,37 +36,24 @@ class BillingAuthenticator extends AbstractLoginFormAuthenticator
     {
         $email = $request->request->get('email', null);
 
-        // запрос на авторизацию
         $credentials = json_encode([
             'username' => $email,
             'password' => $request->request->get('password', null),
-        ], JSON_THROW_ON_ERROR);
+        ]);
 
-        try {
-            $response = $this->billingClient->authenticate($credentials);
-        } catch (BillingUnavailableException | JsonException $e) {
-            throw new Exception('Произошла ошибка во время авторизации: ' . $e->getMessage());
-        }
-
-        if (isset($response['code'])) {
-            throw new AuthenticationException($response['message']);
-        }
-
-        // получаем всю информацию о текущем пользователе
-        $loaderUser = function () use ($response): UserInterface {
+        // запрос на авторизацию
+        $loaderUser = function () use ($credentials): UserInterface {
             try {
-                $userResponse = $this->billingClient->getCurrentUser($response['token']);
+                $response = $this->billingClient->authenticate($credentials);
+                if (isset($response['code'])) {
+                    throw new AuthenticationException($response['message']);
+                }
             } catch (BillingUnavailableException | JsonException $e) {
-                throw new CustomUserMessageAuthenticationException(
-                    "Произошла ошибка во время получения данных пользователя. Повторите попытку позднее."
-                );
+                throw new Exception('Произошла ошибка во время авторизации: ' . $e->getMessage());
             }
 
             $user = new User();
             $user->setApiToken($response['token']);
-            $user->setRoles($userResponse['roles']);
-            $user->setBalance($userResponse['balance']);
-            $user->setEmail($userResponse['username']);
 
             return $user;
         };

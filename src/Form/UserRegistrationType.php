@@ -37,12 +37,17 @@ class UserRegistrationType extends AbstractType
                 'invalid_message' => 'Введенные пароли не совпадают.',
                 'first_options'  => [
                     'label' => 'Пароль',
-                    'placeholder' => 'Минимум 6 символов',
-                    'class' => 'form-control mb-3',
+                    'attr' => [
+                        'class' => 'form-control mb-3',
+                        'placeholder' => 'Минимум 6 символов',
+                    ],
                 ],
                 'second_options' => [
                     'label' => 'Подтвердите пароль',
-                    'class' => 'form-control mb-3',
+                    'attr' => [
+                        'class' => 'form-control mb-3',
+                        'placeholder' => 'Тут нужно ввести то же, что и там )',
+                    ],
                 ],
                 'constraints' => [
                     new NotBlank([

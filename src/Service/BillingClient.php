@@ -26,6 +26,12 @@ class BillingClient
         return BillingRequstService::post($url, $credentials);
     }
 
+    public function registraton(string $credentials) : array
+    {
+        $url = $this->billing . '/api/v1/register';
+        return BillingRequstService::post($url, $credentials);
+    }
+
     public function getCurrentUser(string $token): array
     {
         $url = $this->billing . '/api/v1/users/current';
