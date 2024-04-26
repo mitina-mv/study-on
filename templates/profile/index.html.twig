@@ -15,5 +15,7 @@
             <div class="m-2">
                 Ваш баланс: {{ user.balance }}
             </div>
+
+            <a class='btn btn-primary' href="{{ path('app_logout') }}">Выход</a>
     </div>
 {% endblock %}
