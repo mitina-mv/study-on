@@ -47,6 +47,7 @@ class BillingAuthenticator extends AbstractLoginFormAuthenticator
         } catch (BillingUnavailableException | JsonException $e) {
             throw new Exception('Произошла ошибка во время авторизации: ' . $e->getMessage());
         }
+
         if (isset($response['code'])) {
             throw new AuthenticationException($response['message']);
         }

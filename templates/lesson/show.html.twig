@@ -12,6 +12,7 @@
         <p>{{ lesson.course.title }}</p>
     </div>
 
+    {% if is_granted('ROLE_SUPER_ADMIN') %}
     <div>
         <b>Действия</b>
         <div class='d-flex gap-2 mt-2'>        
@@ -20,6 +21,7 @@
             {{ include('lesson/_delete_form.html.twig') }}
         </div>
     </div>
+    {% endif %}
 
     <div class='lesson-content'>
         <b>Контент</b>
