@@ -37,7 +37,7 @@ class BillingClientMock extends BillingClient
             || $arrayedCredentials['username'] === $this->userEmail
         ) {
             $response['code'] = 401;
-            $response['errors']['unique'] = 'Пользователь с такой электронной почтой уже существует!';
+            $response['errors']['username'] = 'Пользователь с такой электронной почтой уже существует!';
             return $response;
         }
 
