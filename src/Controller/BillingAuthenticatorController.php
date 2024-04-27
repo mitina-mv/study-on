@@ -23,9 +23,9 @@ class BillingAuthenticatorController extends AbstractController
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('app_course_index');
-        // }
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_course_index');
+        }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -77,6 +77,12 @@ class BillingAuthenticatorController extends AbstractController
 
                 $user = new User();
                 $user->setApiToken($response['token']);
+
+                $userResponse = $billingClient->getCurrentUser($response['token']);
+                
+                $user->setRoles($userResponse['roles']);
+                $user->setBalance($userResponse['balance']);
+                $user->setEmail($userResponse['username']);
 
                 return $authenticator->authenticateUser(
                     $user,

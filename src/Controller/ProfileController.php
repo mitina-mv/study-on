@@ -23,16 +23,6 @@ class ProfileController extends AbstractController
     {
         $user = $this->getUser();
 
-        try {
-            $response = $this->billingClient->getCurrentUser($user->getApiToken());
-
-            $user->setRoles($response['roles']);
-            $user->setBalance($response['balance']);
-            $user->setEmail($response['username']);
-        } catch (BillingUnavailableException | JsonException $e) {
-            throw new Exception('Произошла ошибка во время получения данных профиля: ' . $e->getMessage());
-        }
-
         return $this->render('profile/index.html.twig', [
             'user' => $user,
             'user_role' => in_array('ROLE_SUPER_ADMIN', $user->getRoles()) ? 'Администратор' : 'Пользователь'

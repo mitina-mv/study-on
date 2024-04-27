@@ -23,9 +23,23 @@
                 </div>
             </nav>
 
-            <a class='profile-icon' href="{{ path('app_profile') }}">
-                <img src='/images/user.png' />
-            </a>
+            <div class='profile-links'>            
+                {% if is_granted('ROLE_USER') %}
+                    <a class="" href="{{ path('app_profile') }}">
+                        <span class="pi pi-user"></span>
+                    </a>
+                    <a class="" href="{{ path('app_logout') }}">
+                    <span class="pi pi-sign-out"></span> 
+                    </a>
+                {% else %}
+                    <a class="" href="{{ path('app_registration') }}">
+                        <span class="pi pi-user-plus"></span>
+                    </a>
+                    <a class="" href="{{ path('app_login') }}">
+                        <span class="pi pi-sign-in"></span>
+                    </a>
+                {% endif %}
+            </div>
         </header>
         <main class='container'>
             {% block body %}{% endblock %}

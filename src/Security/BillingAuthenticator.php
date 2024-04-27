@@ -46,14 +46,19 @@ class BillingAuthenticator extends AbstractLoginFormAuthenticator
             try {
                 $response = $this->billingClient->authenticate($credentials);
                 if (isset($response['code'])) {
-                    throw new AuthenticationException($response['message']);
+                    throw new BillingUnavailableException($response['message']);
                 }
+                // запрос на получение текущего пользователя
+                $userResponse = $this->billingClient->getCurrentUser($response['token']);
             } catch (BillingUnavailableException | JsonException $e) {
-                throw new Exception('Произошла ошибка во время авторизации: ' . $e->getMessage());
+                throw new AuthenticationException('Произошла ошибка во время авторизации: ' . $e->getMessage());
             }
 
             $user = new User();
             $user->setApiToken($response['token']);
+            $user->setRoles($userResponse['roles']);
+            $user->setBalance($userResponse['balance']);
+            $user->setEmail($userResponse['username']);
 
             return $user;
         };
