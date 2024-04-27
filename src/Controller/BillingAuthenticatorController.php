@@ -51,7 +51,7 @@ class BillingAuthenticatorController extends AbstractController
         BillingAuthenticator $formAuthenticator
     ): Response {
         if ($this->getUser()) {
-            return $this->redirectToRoute('app_course_index');
+            return $this->redirectToRoute('app_profile');
         }
 
         $form = $this->createForm(UserRegistrationType::class);
@@ -79,7 +79,7 @@ class BillingAuthenticatorController extends AbstractController
                 $user->setApiToken($response['token']);
 
                 $userResponse = $billingClient->getCurrentUser($response['token']);
-                
+
                 $user->setRoles($userResponse['roles']);
                 $user->setBalance($userResponse['balance']);
                 $user->setEmail($userResponse['username']);
