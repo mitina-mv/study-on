@@ -38,7 +38,7 @@ class AuthTest extends AbstractTest
     public function urlProviderSuccessful(): \Generator
     {
         yield ['/login'];
-        yield ['/register'];
+        yield ['/registration'];
     }
     /**
      * Тест на доступность страниц без авторизации
@@ -62,5 +62,54 @@ class AuthTest extends AbstractTest
                 'password' => 'user@email.example'
             ]
         );
+
+        $client->submit($form);
+
+        $this->assertTrue($client->getResponse()->isRedirect());
+        $client->followRedirect();
+        self::assertEquals('/courses/', $client->getRequest()->getPathInfo());
+    }
+
+    public function testLoginFail(): void
+    {
+        $client = $this->localClient();
+        $crawler = $client->request('GET', '/login');
+        
+        $form = $crawler->selectButton('Войти')->form(
+            [
+                'email' => 'user@email.example',
+                'password' => '123123'
+            ]
+        );
+
+        $client->submit($form);
+
+        $this->assertTrue($client->getResponse()->isRedirect());
+        $crawler = $client->followRedirect();
+        self::assertEquals('/login', $client->getRequest()->getPathInfo());
+        $this->assertCount(1, $crawler->filter('.alert'));
+    }
+
+    
+
+    public function testRegisterSuccess(): void
+    {
+        $client = $this->localClient();
+        $crawler = $client->request('GET', '/registration');
+        
+        $form = $crawler->selectButton('Зарегистрироваться')->form(
+            [
+                'user_registration[email]' => 'user1@email.example',
+                'user_registration[password][first]' => 'user1@email.example',
+                'user_registration[password][second]' => 'user1@email.example',
+            ]
+        );
+
+        $client->submit($form);
+
+        // TODO
+        // $this->assertTrue($client->getResponse()->isRedirect());
+        // $client->followRedirect();
+        // self::assertEquals('/courses/', $client->getRequest()->getPathInfo());
     }
 }

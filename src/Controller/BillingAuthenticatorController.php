@@ -51,7 +51,7 @@ class BillingAuthenticatorController extends AbstractController
         BillingAuthenticator $formAuthenticator
     ): Response {
         if ($this->getUser()) {
-            return $this->redirectToRoute('app_profile');
+            return $this->redirectToRoute('app_course_index');
         }
 
         $form = $this->createForm(UserRegistrationType::class);
