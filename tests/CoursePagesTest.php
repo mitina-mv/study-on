@@ -24,9 +24,6 @@ class CoursePagesTest extends AbstractTest
     public function urlProviderSuccessful(): \Generator
     {
         yield ['/courses/'];
-        yield ['/courses/new'];
-        yield ["/courses/2"];
-        yield ["/courses/2/edit"];
     }
     /**
      * Тест на доступность страниц
@@ -37,6 +34,23 @@ class CoursePagesTest extends AbstractTest
         $client = static::createTestClient();
         $client->request('GET', $url);
         $this->assertResponseOk();
+    }
+    
+    public function urlProviderRedirectToLogin(): \Generator
+    {
+        yield ['/courses/new'];
+        yield ["/courses/2"];
+        yield ["/courses/2/edit"];
+    }
+    /**
+     * Тест на доступность страниц
+     * @dataProvider urlProviderSuccessful
+     */
+    public function testPageRedirectToLogin($url): void
+    {
+        $client = static::createTestClient();
+        $client->request('GET', $url);
+        $this->assertTrue($client->getResponse()->isRedirect('/login'));
     }
 
     public function urlProviderNotFound(): \Generator

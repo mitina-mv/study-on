@@ -21,7 +21,7 @@ class LessonPagesTest extends AbstractTest
         return [CourseFixtures::class];
     }
     
-    public function urlProviderSuccessful(): \Generator
+    public function urlProviderRedirectToLogin(): \Generator
     {
         yield ['/lessons/new/3'];
         yield ['/lessons/2'];
@@ -31,11 +31,11 @@ class LessonPagesTest extends AbstractTest
      * Тест на доступность страниц
      * @dataProvider urlProviderSuccessful
      */
-    public function testPageSuccessful($url): void
+    public function testPageRedirectToLogin($url): void
     {
         $client = static::createTestClient();
         $client->request('GET', $url);
-        $this->assertResponseOk();
+        $this->assertTrue($client->getResponse()->isRedirect('/login'));
     }
 
     public function urlProviderNotFound(): \Generator

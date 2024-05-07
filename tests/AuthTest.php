@@ -32,7 +32,7 @@ class AuthTest extends AbstractTest
             new BillingClientMock()
         );
 
-        return self::getClient();
+        return self::createTestClient();
     }
 
     public function urlProviderSuccessful(): \Generator

@@ -5,12 +5,26 @@ namespace App\Tests;
 use App\Command\ResetSequencesCommand;
 use App\DataFixtures\CourseFixtures;
 use App\Entity\Course;
+use App\Service\BillingClient;
+use App\Tests\Mock\BillingClientMock;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\HttpFoundation\Response;
 
 class CourseFunctionaltest extends AbstractTest
 {
+    private function billingClient()
+    {
+        self::createTestClient()->disableReboot();
+
+        self::createTestClient()->getContainer()->set(
+            BillingClient::class,
+            new BillingClientMock()
+        );
+
+        return self::createTestClient();
+    }
+    
     protected function getFixtures(): array
     {
         // обнуление сиквансов перед загрузкой фикстур
@@ -66,6 +80,11 @@ class CourseFunctionaltest extends AbstractTest
     public function testCreateOkCourseForm(): void
     {
         $client = self::createTestClient();
+
+        // авторизация под админом
+        $billingClient = self::billingClient();
+        // $billingClient
+        
         $crawler = $client->request('GET', '/courses/new');
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
