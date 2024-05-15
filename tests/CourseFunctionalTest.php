@@ -120,17 +120,29 @@ class CourseFunctionaltest extends AbstractTest
      * Проверка заполнения формы создания нового курса
      * Role: User
      */
-    public function testCreateOkCourseFormUser(): void
+    public function testCreateCourseFormUser(): void
     {
         $client = $this->createAuthorizedClient($this->userEmail, $this->userEmail);
 
-        $crawler = $client->request('GET', '/courses/new');
+        $client->request('GET', '/courses/new');
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
 
+        // проверка отправки прямого пост-запроса с данными
+        $formData = [
+            'course' => [
+                'title' => 'Название курса',
+                'description' => 'Описание курса',
+                'code' => 'code1'
+            ]
+        ];
+
+        $client->request('POST', '/courses/new', $formData);
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
     }
 
     /**
      * Проверка удаления курса
+     * Role: Admin
      */
     public function testDeleteCourse(): void
     {
@@ -151,9 +163,27 @@ class CourseFunctionaltest extends AbstractTest
     }
 
     /**
-     * Проверка редактирования курса
+     * Проверка удаления курса
+     * Role: User
      */
-    public function testEditCourseForm(): void
+    public function testDeleteCourseUser(): void
+    {
+        $client = $this->createAuthorizedClient($this->userEmail, $this->userEmail);
+        $url = '/courses/1';
+
+        $client->request('GET', $url);
+        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+
+        // прямой запрос на удаление
+        $client->request('POST', '/courses/1');
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+    }
+
+    /**
+     * Проверка редактирования курса
+     * Role: Admin
+     */
+    public function testEditCourseFormAdmin(): void
     {
         $client = $this->createAuthorizedClient($this->adminEmail, $this->adminEmail);
         $url = '/courses/1';
@@ -177,11 +207,37 @@ class CourseFunctionaltest extends AbstractTest
     }
 
     /**
+     * Проверка редактирования курса
+     * Role: User
+     */
+    public function testEditCourseFormUser(): void
+    {
+        $client = $this->createAuthorizedClient($this->userEmail, $this->userEmail);
+        $url = '/courses/1/edit';
+
+        $client->request('GET', $url);
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+
+        // проверка отправки прямого пост-запроса с данными
+        $formData = [
+            'course' => [
+                'title' => 'Название курса',
+                'description' => 'Описание курса',
+                'code' => 'code1'
+            ]
+        ];
+
+        $client->request('POST', $url, $formData);
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+    }
+
+    /**
      * Проверка перехода на страницу урока с курса
      */
     public function testNavigateToLessonPage(): void
     {
-        $client = $this->createAuthorizedClient($this->adminEmail, $this->adminEmail);
+        $client = $this->createAuthorizedClient($this->userEmail, $this->userEmail);
         $url = '/courses/1';
 
         $crawler = $client->request('GET', $url);

@@ -23,6 +23,7 @@ class CoursePagesTest extends AbstractTest
     
     public function urlProviderSuccessful(): \Generator
     {
+        yield ["/courses/1"];
         yield ['/courses/'];
     }
     /**
@@ -39,12 +40,11 @@ class CoursePagesTest extends AbstractTest
     public function urlProviderRedirectToLogin(): \Generator
     {
         yield ['/courses/new'];
-        yield ["/courses/2"];
-        yield ["/courses/2/edit"];
+        yield ["/courses/1/edit"];
     }
     /**
      * Тест на доступность страниц
-     * @dataProvider urlProviderSuccessful
+     * @dataProvider urlProviderRedirectToLogin
      */
     public function testPageRedirectToLogin($url): void
     {

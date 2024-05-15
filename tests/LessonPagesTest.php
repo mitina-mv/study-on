@@ -29,7 +29,7 @@ class LessonPagesTest extends AbstractTest
     }
     /**
      * Тест на доступность страниц
-     * @dataProvider urlProviderSuccessful
+     * @dataProvider urlProviderRedirectToLogin
      */
     public function testPageRedirectToLogin($url): void
     {
