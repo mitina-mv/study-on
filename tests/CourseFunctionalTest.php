@@ -5,12 +5,17 @@ namespace App\Tests;
 use App\Command\ResetSequencesCommand;
 use App\DataFixtures\CourseFixtures;
 use App\Entity\Course;
+use App\Service\BillingClient;
+use App\Tests\Helpers\AuthHelper;
+use App\Tests\Mock\BillingClientMock;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\HttpFoundation\Response;
 
 class CourseFunctionaltest extends AbstractTest
 {
+    use AuthHelper;
+    
     protected function getFixtures(): array
     {
         // обнуление сиквансов перед загрузкой фикстур
@@ -39,10 +44,11 @@ class CourseFunctionaltest extends AbstractTest
     
     /**
      * Проверка детальной страницы курса и элементов на ней
+     * Role: Admin
      */
-    public function testOkDetailCoursePage(): void
+    public function testOkDetailCoursePageAdmin(): void
     {
-        $client = self::createTestClient();
+        $client = $this->createAuthorizedClient($this->adminEmail, $this->adminEmail);
         $url = '/courses/1';
 
         $client->request('GET', $url);
@@ -59,13 +65,39 @@ class CourseFunctionaltest extends AbstractTest
         $this->assertSelectorExists('a.btn-secondary', 'Редактировать');
         $this->assertSelectorExists('a.btn-success', 'Добавить урок');
     }
+    
+    /**
+     * Проверка детальной страницы курса и элементов на ней
+     * Role: User
+     */
+    public function testOkDetailCoursePageUser(): void
+    {
+        $client = $this->createAuthorizedClient($this->userEmail, $this->userEmail);
+        $url = '/courses/1';
+
+        $client->request('GET', $url);
+
+        // страница доступна
+        $response = $client->getResponse();
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+
+        // есть заголовок, список занятий, кнопки
+        $this->assertSelectorExists('h1');
+        $this->assertSelectorExists('ul.list-group');
+        $this->assertSelectorExists('[role=group]');
+        $this->assertSelectorExists('a.btn-dark', 'К списку курсов');
+        $this->assertSelectorNotExists('a.btn-secondary', 'Редактировать');
+        $this->assertSelectorNotExists('a.btn-success', 'Добавить урок');
+    }
 
     /**
      * Проверка заполнения формы создания нового курса
+     * Role: Admin
      */
-    public function testCreateOkCourseForm(): void
+    public function testCreateOkCourseFormAdmin(): void
     {
-        $client = self::createTestClient();
+        $client = $this->createAuthorizedClient($this->adminEmail, $this->adminEmail);
+
         $crawler = $client->request('GET', '/courses/new');
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
@@ -85,11 +117,36 @@ class CourseFunctionaltest extends AbstractTest
     }
 
     /**
+     * Проверка заполнения формы создания нового курса
+     * Role: User
+     */
+    public function testCreateCourseFormUser(): void
+    {
+        $client = $this->createAuthorizedClient($this->userEmail, $this->userEmail);
+
+        $client->request('GET', '/courses/new');
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+
+        // проверка отправки прямого пост-запроса с данными
+        $formData = [
+            'course' => [
+                'title' => 'Название курса',
+                'description' => 'Описание курса',
+                'code' => 'code1'
+            ]
+        ];
+
+        $client->request('POST', '/courses/new', $formData);
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+    }
+
+    /**
      * Проверка удаления курса
+     * Role: Admin
      */
     public function testDeleteCourse(): void
     {
-        $client = self::createTestClient();
+        $client = $this->createAuthorizedClient($this->adminEmail, $this->adminEmail);
         $url = '/courses/1';
 
         $crawler = $client->request('GET', $url);
@@ -106,11 +163,29 @@ class CourseFunctionaltest extends AbstractTest
     }
 
     /**
-     * Проверка редактирования курса
+     * Проверка удаления курса
+     * Role: User
      */
-    public function testEditCourseForm(): void
+    public function testDeleteCourseUser(): void
     {
-        $client = self::createTestClient();
+        $client = $this->createAuthorizedClient($this->userEmail, $this->userEmail);
+        $url = '/courses/1';
+
+        $client->request('GET', $url);
+        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+
+        // прямой запрос на удаление
+        $client->request('POST', '/courses/1');
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+    }
+
+    /**
+     * Проверка редактирования курса
+     * Role: Admin
+     */
+    public function testEditCourseFormAdmin(): void
+    {
+        $client = $this->createAuthorizedClient($this->adminEmail, $this->adminEmail);
         $url = '/courses/1';
 
         $crawler = $client->request(
@@ -132,11 +207,37 @@ class CourseFunctionaltest extends AbstractTest
     }
 
     /**
+     * Проверка редактирования курса
+     * Role: User
+     */
+    public function testEditCourseFormUser(): void
+    {
+        $client = $this->createAuthorizedClient($this->userEmail, $this->userEmail);
+        $url = '/courses/1/edit';
+
+        $client->request('GET', $url);
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+
+        // проверка отправки прямого пост-запроса с данными
+        $formData = [
+            'course' => [
+                'title' => 'Название курса',
+                'description' => 'Описание курса',
+                'code' => 'code1'
+            ]
+        ];
+
+        $client->request('POST', $url, $formData);
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+    }
+
+    /**
      * Проверка перехода на страницу урока с курса
      */
     public function testNavigateToLessonPage(): void
     {
-        $client = self::createTestClient();
+        $client = $this->createAuthorizedClient($this->userEmail, $this->userEmail);
         $url = '/courses/1';
 
         $crawler = $client->request('GET', $url);
@@ -152,7 +253,7 @@ class CourseFunctionaltest extends AbstractTest
      */
     public function testCreateErrorCourseForm(): void
     {
-        $client = self::createTestClient();
+        $client = $this->createAuthorizedClient($this->adminEmail, $this->adminEmail);
         $crawler = $client->request('GET', '/courses/new');
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);

@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/courses')]
 class CourseController extends AbstractController
@@ -22,6 +23,7 @@ class CourseController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_SUPER_ADMIN')]
     #[Route('/new', name: 'app_course_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -50,6 +52,7 @@ class CourseController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_SUPER_ADMIN')]
     #[Route('/{id}/edit', name: 'app_course_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Course $course, EntityManagerInterface $entityManager): Response
     {
@@ -67,7 +70,8 @@ class CourseController extends AbstractController
             'form' => $form,
         ]);
     }
-
+    
+    #[IsGranted('ROLE_SUPER_ADMIN')]
     #[Route('/{id}', name: 'app_course_delete', methods: ['POST'])]
     public function delete(Request $request, Course $course, EntityManagerInterface $entityManager): Response
     {

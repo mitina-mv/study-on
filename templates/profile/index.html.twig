@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block body %}
+    <h1>Профиль</h1>
+
+    <div class="container">
+            <div class="m-2">
+                Email: {{ user.email }}
+            </div>
+            <div class="m-2">
+                Ваша роль: {{ user_role }}
+            </div>
+            <div class="m-2">
+                Ваш баланс: {{ user.balance }}
+            </div>
+
+            <a class='btn btn-primary' href="{{ path('app_logout') }}">Выход</a>
+    </div>
+{% endblock %}
