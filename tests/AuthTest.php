@@ -25,14 +25,16 @@ class AuthTest extends AbstractTest
 
     private function localClient()
     {
-        self::createTestClient()->disableReboot();
+        $client = self::createTestClient();
 
-        self::createTestClient()->getContainer()->set(
+        $client->disableReboot();
+
+        $client->getContainer()->set(
             BillingClient::class,
-            new BillingClientMock()
+            new BillingClientMock('')
         );
 
-        return self::createTestClient();
+        return $client;
     }
 
     public function urlProviderSuccessful(): \Generator
@@ -90,26 +92,63 @@ class AuthTest extends AbstractTest
         $this->assertCount(1, $crawler->filter('.alert'));
     }
 
-    
-
     public function testRegisterSuccess(): void
     {
         $client = $this->localClient();
         $crawler = $client->request('GET', '/registration');
+
+        // TODO выяснилось, что подмена сервиса на мок не происходит
         
         $form = $crawler->selectButton('Зарегистрироваться')->form(
             [
-                'user_registration[email]' => 'user1@email.example',
-                'user_registration[password][first]' => 'user1@email.example',
-                'user_registration[password][second]' => 'user1@email.example',
+                'user_registration[email]' => 'user123@email.example',
+                'user_registration[password][first]' => 'user123@email.example',
+                'user_registration[password][second]' => 'user123@email.example',
+            ]
+        );
+
+        $client->submit($form);
+        $this->assertResponseRedirect();
+        $crawler = $client->followRedirect();
+        $this->assertEquals('/courses/', $client->getRequest()->getPathInfo());
+    }
+
+    public function testRegisterFail(): void
+    {
+        $client = $this->createTestClient();
+        $crawler = $client->request('GET', '/registration');
+        
+        $form = $crawler->selectButton('Зарегистрироваться')->form(
+            [
+                'user_registration[email]' => 'user@email.example',
+                'user_registration[password][first]' => 'user@email.example',
+                'user_registration[password][second]' => 'user@email.example',
             ]
         );
 
         $client->submit($form);
 
-        // TODO
-        // $this->assertTrue($client->getResponse()->isRedirect());
-        // $client->followRedirect();
-        // self::assertEquals('/courses/', $client->getRequest()->getPathInfo());
+        $crawler = $client->getCrawler()->filter('.alert-danger');
+        $this->assertSame(
+            'Email должен быть уникальным.',
+            $crawler->filter('li')->text()
+        );
+
+        $crawler = $client->request('GET', '/registration');
+        $form = $crawler->selectButton('Зарегистрироваться')->form(
+            [
+                'user_registration[email]' => 'user1@email.example',
+                'user_registration[password][first]' => '123',
+                'user_registration[password][second]' => '123',
+            ]
+        );
+
+        $client->submit($form);
+
+        $crawler = $client->getCrawler()->filter('.alert-danger');
+        $this->assertSame(
+            'Пароль должен содержать минимум 6 символов',
+            $crawler->filter('li')->text()
+        );
     }
 }
