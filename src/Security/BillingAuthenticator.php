@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
@@ -42,7 +41,7 @@ class BillingAuthenticator extends AbstractLoginFormAuthenticator
         ]);
 
         // запрос на авторизацию
-        $loaderUser = function () use ($credentials): UserInterface {
+        $loaderUser = function () use ($credentials, $request): UserInterface {
             try {
                 $response = $this->billingClient->authenticate($credentials);
                 if (isset($response['code'])) {
@@ -51,7 +50,9 @@ class BillingAuthenticator extends AbstractLoginFormAuthenticator
                 // запрос на получение текущего пользователя
                 $userResponse = $this->billingClient->getCurrentUser($response['token']);
             } catch (BillingUnavailableException | JsonException $e) {
-                throw new AuthenticationException('Произошла ошибка во время авторизации: ' . $e->getMessage());
+                throw new CustomUserMessageAuthenticationException(
+                    'Произошла ошибка во время авторизации: ' . $e->getMessage()
+                );
             }
 
             $user = new User();

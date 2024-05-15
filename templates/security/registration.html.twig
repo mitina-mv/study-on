@@ -11,10 +11,14 @@
 
             {{ form_widget(registrationForm.password) }}
 
-            <div class="alert alert-danger">
-                {{ form_errors(registrationForm.email) }}
-                {{ form_errors(registrationForm) }}
-            </div>
+            {% if errors %}
+                <div class="alert alert-danger">
+                    {% for message in errors %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
             <br>
             <button type="submit" class="btn mt-3 btn-success">Зарегистрироваться</button>
         {{ form_end(registrationForm) }}

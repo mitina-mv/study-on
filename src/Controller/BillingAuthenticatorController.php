@@ -57,6 +57,28 @@ class BillingAuthenticatorController extends AbstractController
         $form = $this->createForm(UserRegistrationType::class);
         $form->handleRequest($request);
 
+        $errors = [];
+
+        if ($request->get('errors') || ($form->isSubmitted() && !$form->isValid())) {
+            $requestErrors = $request->get('errors', []);
+
+            foreach ($form->getErrors(true, false) as $error) {
+                foreach ($error as $formError) {
+                    foreach ($formError as $e) {
+                        $errors[] = $e->getMessage();
+                    }
+                }
+            }
+
+            return $this->render('security/registration.html.twig', [
+                'registrationForm' => $form->createView(),
+                'errors' => array_merge(
+                    $requestErrors,
+                    $errors
+                ),
+            ]);
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
             $credentials = json_encode([
                 'username' => $form["email"]->getData(),
@@ -69,9 +91,7 @@ class BillingAuthenticatorController extends AbstractController
                 $response = $billingClient->registraton($credentials);
 
                 if (isset($response['errors'])) {
-                    foreach ($response['errors'] as $error) {
-                        $form->addError(new FormError($error));
-                    }
+                    $errors = $response['errors'];
                     throw new BillingUnavailableException("Невалидные данные.", 1);
                 }
 
@@ -95,14 +115,17 @@ class BillingAuthenticatorController extends AbstractController
                 $error = 'Произошла непредвиденная ошибка. Подробнее: ' . $e->getMessage();
             } finally {
                 if (isset($error)) {
-                    $form->addError(new FormError($error));
+                    $errors[] = $error;
                 }
             }
         }
 
         return $this->render(
             'security/registration.html.twig',
-            ['registrationForm' => $form->createView()]
+            [
+                'registrationForm' => $form->createView(),
+                'errors' => $errors
+            ]
         );
     }
 }
