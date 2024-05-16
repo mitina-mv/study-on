@@ -57,6 +57,7 @@ class BillingAuthenticator extends AbstractLoginFormAuthenticator
 
             $user = new User();
             $user->setApiToken($response['token']);
+            $user->setRefreshToken($response['refresh_token']);
             $user->setRoles($userResponse['roles']);
             $user->setBalance($userResponse['balance']);
             $user->setEmail($userResponse['username']);

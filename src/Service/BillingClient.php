@@ -37,4 +37,12 @@ class BillingClient
         $url = $this->billing . '/api/v1/users/current';
         return BillingRequstService::get($url, $token);
     }
+
+    public function refresh(string $refreshToken): array
+    {
+        $url = $this->billing . 'api/v1/token/refresh';
+        return BillingRequstService::post($url, json_encode([
+            'refresh_token' => $refreshToken
+        ]));
+    }
 }
