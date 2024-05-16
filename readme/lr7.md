@@ -79,11 +79,53 @@ security:
 Обратите внимание на поле "Срок действия до (дата и время, обязательно для списания по арендуемым курсам)
 ". То есть оно `#[ORM\Column(nullable: true)]`
 
-## 3. Модели данных в сервисе StudyOn (для работы с курсами)
+## 3. Методы получения данных из StudyOn.Billing
+1. Метод получения курсов
+- создаем контроллер CourseController с конструктором 
+```
+public function __construct(
+        private CourseRepository $courseRepository,
+    ) {
+    }
+```
+`$courseRepository` нужен для доступа к репозиторию курсов (чтобы во все методы не передавать его)
+- наша сикурность тоже требует коррекции:
+```
+access_control:
+    - { path: ^/api/v1/courses, roles: PUBLIC_ACCESS }
+```
+- метод получения имени типа по его цифровому значению. Как так, да вот так... )
+```
+public function getTypeName(): string
+{
+    switch ($this->type) {
+        case 1:
+            return 'free';
+        case 2:
+            return 'rent';
+        case 3:
+            return 'buy';
+        default:
+            return 'unknown';
+    }
+}
+```
+- метод получения курсов:
+```
+#[Route('/courses', name: 'api_courses', methods: ['GET'])]
+    public function index(): JsonResponse
+    {}
+```
+тут делаем вот такое:
+```
+foreach ($courses as $course) {
+    $item = $course->toArray(); // самописный метод
+    $item['type'] = $course->getTypeName();
 
-
-## 4. Методы получения данных из StudyOn.Billing
-
+    $result[] = $item;
+}
+```
+мы делаем из курса массив, чтобы потом без проблем заменить его поле тип на то, что нужно нам. вот и ружье выстрелило )
 
 ## 5. Фиксация изменения баланса
 
