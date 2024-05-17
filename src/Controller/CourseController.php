@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Course;
 use App\Form\CourseType;
 use App\Repository\CourseRepository;
+use App\Service\BillingClient;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,9 +16,26 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/courses')]
 class CourseController extends AbstractController
 {
+    public function __construct(
+        private BillingClient $billingClient,
+    ) {
+    }
+    
     #[Route('/', name: 'app_course_index', methods: ['GET'])]
     public function index(CourseRepository $courseRepository): Response
     {
+        $courseResponse = $this->billingClient->courses();
+        $user = $this->getUser();
+
+        dd($courseResponse);
+
+        if ($user !== null) {
+            $transactions = $this->billingClient->transactions(
+                $user->getToken(),
+                ['skip_expired' => true, 'type' => 'payment']
+            );
+        }
+
         return $this->render('course/index.html.twig', [
             'courses' => $courseRepository->findAll(),
         ]);
