@@ -61,7 +61,7 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
 
         $decodeApiToken = JwtDecoder::decode($user->getApiToken());
         
-        $tokenExp = new \DateTime($decodeApiToken['exp']);
+        $tokenExp = new \DateTime(date('m/d/Y H:i', $decodeApiToken['exp']));
 
         $now = new \DateTime();
         $now->add(new \DateInterval('P0DT0H5M0S'));

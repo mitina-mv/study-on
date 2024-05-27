@@ -11,7 +11,8 @@ class JwtDecoder
         
         return [
             'exp' => $payload['exp'],
-            'username' => $payload['email'],
+            'iat' => $payload['iat'],
+            'email' => $payload['username'],
             'roles' => $payload['roles']
         ];
     }

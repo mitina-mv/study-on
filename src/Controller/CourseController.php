@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 #[Route('/courses')]
 class CourseController extends AbstractController
@@ -22,19 +23,24 @@ class CourseController extends AbstractController
     }
     
     #[Route('/', name: 'app_course_index', methods: ['GET'])]
-    public function index(CourseRepository $courseRepository): Response
-    {
-        $courseResponse = $this->billingClient->courses();
+    public function index(
+        CourseRepository $courseRepository,
+        HttpClientInterface $client
+    ): Response {
+        /* $courseResponse = $client->request(
+            'GET',
+            'http://billing.study-on.loc/api/v1/courses'
+        );
         $user = $this->getUser();
 
-        dd($courseResponse);
+        dd($courseResponse); */
 
-        if ($user !== null) {
+        /* if ($user !== null) {
             $transactions = $this->billingClient->transactions(
                 $user->getToken(),
                 ['skip_expired' => true, 'type' => 'payment']
             );
-        }
+        } */
 
         return $this->render('course/index.html.twig', [
             'courses' => $courseRepository->findAll(),
