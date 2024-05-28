@@ -52,9 +52,13 @@ class ProfileController extends AbstractController
             }
 
             foreach ($transactions as &$transaction) {
-                $courseCode = $transaction['course_code'];
-                if (isset($coursesByCode[$courseCode])) {
-                    $transaction['course'] = $coursesByCode[$courseCode];
+                if (isset($transaction['course_code'])){
+                    $courseCode = $transaction['course_code'];
+                    if (isset($coursesByCode[$courseCode])) {
+                        $transaction['course'] = $coursesByCode[$courseCode];
+                    } else {
+                        $transaction['course'] = null;
+                    }
                 } else {
                     $transaction['course'] = null;
                 }

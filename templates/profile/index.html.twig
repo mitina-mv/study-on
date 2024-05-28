@@ -22,7 +22,8 @@
                 Ваша роль: {{ user_role }}
             </div>
             <div class="m-2">
-                Ваш баланс: {{ user.balance }}
+                Ваш баланс: {{ user.balance }} 
+                <a href="{{ path('app_profile_transactions') }}" class='m-1'>История транзакций</a>
             </div>
 
             <a class='btn btn-primary' href="{{ path('app_logout') }}">Выход</a>

@@ -39,7 +39,11 @@
                 </td>
                 <td>{{ transaction.amount }}</td>
                 <td>
+                    {% if(transaction.course) %}
                     <a href="{{ path('app_course_show', {'id': transaction.course.id}) }}">{{ transaction.course.title }}</a>
+                    {% else %}
+                    -
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}
