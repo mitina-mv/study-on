@@ -1,0 +1,904 @@
+PHPUnit 9.6.19 by Sebastian Bergmann and contributors.
+
+Testing App\Tests\CourseFunctionaltest
+.Symfony\Bundle\FrameworkBundle\KernelBrowser {#1962
+  #history: Symfony\Component\BrowserKit\History {#1960
+    #stack: array:3 [
+      0 => Symfony\Component\BrowserKit\Request {#1840
+        #uri: "http://localhost/login"
+        #method: "GET"
+        #parameters: []
+        #files: []
+        #cookies: []
+        #server: array:3 [
+          "HTTP_USER_AGENT" => "Symfony BrowserKit"
+          "HTTP_HOST" => "localhost"
+          "HTTPS" => false
+        ]
+        #content: null
+      }
+      1 => Symfony\Component\BrowserKit\Request {#2533
+        #uri: "http://localhost/login"
+        #method: "POST"
+        #parameters: array:3 [
+          "email" => "user_admin@email.example"
+          "password" => "user_admin@email.example"
+          "_csrf_token" => "cd0a95cfa6f8715ba4d5422f8e92.mxEO66Rr6fkAou52kZiO52uo6h2RXxlcfDZT_2aBKN4.4UhksvVa25hx1Yon38rvrDTZsFijMXttTH4rmwDRfrPOdUmIkg3fkWyVvw"
+        ]
+        #files: []
+        #cookies: array:1 [
+          "MOCKSESSID" => "5e6b7e47e63b857ed4920519cd45772c7db4c85c1c5b948c229d3552e40d7341"
+        ]
+        #server: array:4 [
+          "HTTP_USER_AGENT" => "Symfony BrowserKit"
+          "HTTP_REFERER" => "http://localhost/login"
+          "HTTP_HOST" => "localhost"
+          "HTTPS" => false
+        ]
+        #content: null
+      }
+      2 => Symfony\Component\BrowserKit\Request {#2209
+        #uri: "http://localhost/courses/"
+        #method: "GET"
+        #parameters: []
+        #files: []
+        #cookies: array:1 [
+          "MOCKSESSID" => "d3c7e9007e7f78ccfacad2406301e17fa67778cc259e139dfc2e1c426668a5cd"
+        ]
+        #server: array:4 [
+          "HTTP_USER_AGENT" => "Symfony BrowserKit"
+          "HTTP_REFERER" => "http://localhost/login"
+          "HTTP_HOST" => "localhost"
+          "HTTPS" => false
+        ]
+        #content: null
+      }
+    ]
+    #position: 2
+  }
+  #cookieJar: Symfony\Component\BrowserKit\CookieJar {#1937
+    #cookieJar: array:1 [
+      "localhost" => array:1 [
+        "/" => array:1 [
+          "MOCKSESSID" => Symfony\Component\BrowserKit\Cookie {#2307
+            #name: "MOCKSESSID"
+            #value: "d3c7e9007e7f78ccfacad2406301e17fa67778cc259e139dfc2e1c426668a5cd"
+            #expires: null
+            #path: "/"
+            #domain: "localhost"
+            #secure: false
+            #httponly: true
+            #rawValue: "d3c7e9007e7f78ccfacad2406301e17fa67778cc259e139dfc2e1c426668a5cd"
+            -samesite: "lax"
+          }
+        ]
+      ]
+    ]
+  }
+  #server: array:1 [
+    "HTTP_USER_AGENT" => "Symfony BrowserKit"
+  ]
+  #internalRequest: Symfony\Component\BrowserKit\Request {#2509
+    #uri: "http://localhost/courses/"
+    #method: "GET"
+    #parameters: []
+    #files: []
+    #cookies: array:1 [
+      "MOCKSESSID" => "d3c7e9007e7f78ccfacad2406301e17fa67778cc259e139dfc2e1c426668a5cd"
+    ]
+    #server: array:4 [
+      "HTTP_USER_AGENT" => "Symfony BrowserKit"
+      "HTTP_REFERER" => "http://localhost/login"
+      "HTTP_HOST" => "localhost"
+      "HTTPS" => false
+    ]
+    #content: null
+  }
+  #request: Symfony\Component\HttpFoundation\Request {#2214
+    +attributes: Symfony\Component\HttpFoundation\ParameterBag {#2212
+      #parameters: array:7 [
+        "_stopwatch_token" => "cd328b"
+        "_route" => "app_course_index"
+        "_controller" => "App\Controller\CourseController::index"
+        "_route_params" => []
+        "_firewall_context" => "security.firewall.map.context.main"
+        "_security_firewall_run" => "_security_main"
+        "_links" => Symfony\Component\WebLink\GenericLinkProvider {#1974
+          -links: []
+        }
+      ]
+    }
+    +request: Symfony\Component\HttpFoundation\InputBag {#2215
+      #parameters: []
+    }
+    +query: Symfony\Component\HttpFoundation\InputBag {#2216
+      #parameters: []
+    }
+    +server: Symfony\Component\HttpFoundation\ServerBag {#2211
+      #parameters: array:18 [
+        "SERVER_NAME" => "localhost"
+        "SERVER_PORT" => 80
+        "HTTP_HOST" => "localhost"
+        "HTTP_USER_AGENT" => "Symfony BrowserKit"
+        "HTTP_ACCEPT" => "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+        "HTTP_ACCEPT_LANGUAGE" => "en-us,en;q=0.5"
+        "HTTP_ACCEPT_CHARSET" => "ISO-8859-1,utf-8;q=0.7,*;q=0.7"
+        "REMOTE_ADDR" => "127.0.0.1"
+        "SCRIPT_NAME" => ""
+        "SCRIPT_FILENAME" => ""
+        "SERVER_PROTOCOL" => "HTTP/1.1"
+        "REQUEST_TIME" => 1716914823
+        "REQUEST_TIME_FLOAT" => 1716914823.0895
+        "HTTP_REFERER" => "http://localhost/login"
+        "PATH_INFO" => ""
+        "REQUEST_METHOD" => "GET"
+        "REQUEST_URI" => "/courses/"
+        "QUERY_STRING" => ""
+      ]
+    }
+    +files: Symfony\Component\HttpFoundation\FileBag {#2210
+      #parameters: []
+    }
+    +cookies: Symfony\Component\HttpFoundation\InputBag {#2213
+      #parameters: array:1 [
+        "MOCKSESSID" => "d3c7e9007e7f78ccfacad2406301e17fa67778cc259e139dfc2e1c426668a5cd"
+      ]
+    }
+    +headers: Symfony\Component\HttpFoundation\HeaderBag {#2208
+      #headers: array:6 [
+        "host" => array:1 [
+          0 => "localhost"
+        ]
+        "user-agent" => array:1 [
+          0 => "Symfony BrowserKit"
+        ]
+        "accept-language" => array:1 [
+          0 => "en-us,en;q=0.5"
+        ]
+        "accept-charset" => array:1 [
+          0 => "ISO-8859-1,utf-8;q=0.7,*;q=0.7"
+        ]
+        "referer" => array:1 [
+          0 => "http://localhost/login"
+        ]
+        "x-php-ob-level" => array:1 [
+          0 => "1"
+        ]
+      ]
+      #cacheControl: []
+    }
+    #content: null
+    #languages: null
+    #charsets: null
+    #encodings: null
+    #acceptableContentTypes: null
+    #pathInfo: "/courses/"
+    #requestUri: "/courses/"
+    #baseUrl: ""
+    #basePath: ""
+    #method: "GET"
+    #format: null
+    #session: Symfony\Component\HttpFoundation\Session\Session {#2263
+      #storage: Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage {#2230
+        #id: "d3c7e9007e7f78ccfacad2406301e17fa67778cc259e139dfc2e1c426668a5cd"
+        #name: "MOCKSESSID"
+        #started: false
+        #closed: false
+        #data: array:2 [
+          "_sf2_attributes" => &1 array:1 [
+            "_security_main" => "O:75:"Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken":2:{i:0;s:4:"main";i:1;a:5:{i:0;O:17:"App\Security\User":5:{s:24:"\x00App\Security\User\x00email";s:24:"user_admin@email.example";s:27:"\x00App\Security\User\x00apiToken";s:159:"header.eyJ1c2VybmFtZSI6InVzZXJfYWRtaW5AZW1haWwuZXhhbXBsZSIsImlhdCI6MTcxNjkxNDgyMywiZXhwIjoxNzE2OTE4NDIzLCJyb2xlcyI6WyJST0xFX1NVUEVSX0FETUlOIl19.verifySignature";s:26:"\x00App\Security\User\x00balance";d:1000;s:31:"\x00App\Security\User\x00refreshToken";s:159:"header.eyJ1c2VybmFtZSI6InVzZXJfYWRtaW5AZW1haWwuZXhhbXBsZSIsImlhdCI6MTcxNjkxNDgyMywiZXhwIjoxNzE2OTE4NDIzLCJyb2xlcyI6WyJST0xFX1NVUEVSX0FETUlOIl19.verifySignature";s:24:"\x00App\Security\User\x00roles";a:1:{i:0;s:16:"ROLE_SUPER_ADMIN";}}i:1;b:1;i:2;N;i:3;a:0:{}i:4;a:2:{i:0;s:16:"ROLE_SUPER_ADMIN";i:1;s:9:"ROLE_USER";}}}"
+          ]
+          "_sf2_meta" => &2 array:3 [
+            "u" => 1716914823
+            "c" => 1716914823
+            "l" => 0
+          ]
+        ]
+        #metadataBag: Symfony\Component\HttpFoundation\Session\Storage\MetadataBag {#2387
+          #meta: &2 array:3 [&2]
+          -name: "__metadata"
+          -storageKey: "_sf2_meta"
+          -lastUsed: 1716914823
+          -updateThreshold: 0
+        }
+        #bags: array:2 [
+          "attributes" => Symfony\Component\HttpFoundation\Session\SessionBagProxy {#2482
+            -bag: Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag {#2485
+              #attributes: &1 array:1 [&1]
+              -name: "attributes"
+              -storageKey: "_sf2_attributes"
+            }
+            -data: &3 array:2 [
+              "_sf2_attributes" => &1 array:1 [&1]
+              "_symfony_flashes" => &4 []
+            ]
+            -usageIndex: &5 4
+            -usageReporter: Symfony\Component\HttpKernel\EventListener\SessionListener::onSessionUsage(): void {#2388
+              returnType: "void"
+              this: Symfony\Component\HttpKernel\EventListener\SessionListener {#2019 …}
+            }
+          }
+          "flashes" => Symfony\Component\HttpFoundation\Session\SessionBagProxy {#2072
+            -bag: Symfony\Component\HttpFoundation\Session\Flash\FlashBag {#2487
+              -name: "flashes"
+              -flashes: &4 []
+              -storageKey: "_symfony_flashes"
+            }
+            -data: &3 array:2 [&3]
+            -usageIndex: &5 4
+            -usageReporter: Symfony\Component\HttpKernel\EventListener\SessionListener::onSessionUsage(): void {#2388}
+          }
+        ]
+        -savePath: "/app/var/cache/test/sessions"
+      }
+      -flashName: "flashes"
+      -attributeName: "attributes"
+      -data: &3 array:2 [&3]
+      -usageIndex: &5 4
+      -usageReporter: Symfony\Component\HttpKernel\EventListener\SessionListener::onSessionUsage(): void {#2388}
+    }
+    #locale: null
+    #defaultLocale: "en"
+    -preferredFormat: null
+    -isHostValid: true
+    -isForwardedValid: true
+    -isSafeContentPreferred: ? bool
+    -trustedValuesCache: []
+    -isIisRewrite: false
+    format: "html"
+  }
+  #internalResponse: Symfony\Component\BrowserKit\Response {#1768
+    -content: """
+      <!DOCTYPE html>\n
+      <html>\n
+          <head>\n
+              <meta charset="UTF-8">\n
+              <title>Список курсов</title>\n
+              <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">\n
+                          <link rel="stylesheet" href="/build/vendors-node_modules_bootstrap_dist_js_bootstrap_esm_js-node_modules_primeicons_primeicons_css.css"><link rel="stylesheet" href="/build/app.css">\n
+              \n
+                          <script src="/build/runtime.js" defer></script><script src="/build/vendors-node_modules_bootstrap_dist_js_bootstrap_esm_js-node_modules_primeicons_primeicons_css.js" defer></script><script src="/build/app.js" defer></script>\n
+                  \n
+      <script type="importmap" data-turbo-track="reload">\n
+      {\n
+          "imports": {\n
+              "app": "/assets/app-bea2202b0ec52e82443d3a735934c6fd.js",\n
+              "/assets/styles/app.scss": "/assets/styles/app-707c2f9a44972c5e0a806f5f52f64ed9.scss",\n
+              "@hotwired/stimulus": "/assets/vendor/@hotwired/stimulus/stimulus.index-b5b1d00e42695b8959b4a1e94e3bc92a.js",\n
+              "@symfony/stimulus-bundle": "/assets/@symfony/stimulus-bundle/loader-e1ee9ace0562f2e6a52301e4ccc8627d.js",\n
+              "/assets/@symfony/stimulus-bundle/controllers.js": "/assets/@symfony/stimulus-bundle/controllers-9d42643c079ab11f27a3a9614f81cc2f.js",\n
+              "/assets/@symfony/ux-turbo/turbo_controller.js": "/assets/@symfony/ux-turbo/turbo_controller-ce5e32dafdec0b7752f02e3e2cb25751.js",\n
+              "/assets/controllers/hello_controller.js": "/assets/controllers/hello_controller-55882fcad241d2bea50276ea485583bc.js",\n
+              "@hotwired/turbo": "/assets/vendor/@hotwired/turbo/turbo.index-810f44ef1a202a441e4866b7a4c72d11.js"\n
+          }\n
+      }\n
+      </script>\n
+      <!-- ES Module Shims: Import maps polyfill for modules browsers without import maps support -->\n
+      <script async src="https://ga.jspm.io/npm:es-module-shims@1.8.0/dist/es-module-shims.js" data-turbo-track="reload"></script>\n
+      <link rel="modulepreload" href="/assets/app-bea2202b0ec52e82443d3a735934c6fd.js">\n
+      <link rel="modulepreload" href="/assets/styles/app-707c2f9a44972c5e0a806f5f52f64ed9.scss">\n
+      <script type="module" data-turbo-track="reload">import 'app';</script>        \n
+                  </head>\n
+          <body>\n
+              <header>\n
+                  <p class='logo'>StudyOn</p>\n
+      \n
+                  <nav>\n
+                      <div>\n
+                          <a href="/courses/">Курсы</a>\n
+                      </div>\n
+                  </nav>\n
+      \n
+                  <div class='profile-links'>            \n
+                                          <a class="" href="/profile/">\n
+                              <span class="pi pi-user"></span>\n
+                          </a>\n
+                          <a class="" href="/logout">\n
+                          <span class="pi pi-sign-out"></span> \n
+                          </a>\n
+                       \n
+                  </div>\n
+              </header>\n
+              <main class='container'>\n
+                                  <h1>Список курсов</h1>\n
+      \n
+          <div class="container">\n
+              <div class="row g-4 mb-3 mt-2">\n
+                          <div class="col-6">\n
+                      <div class='card'> \n
+                      <div class="card-body">               \n
+                          <h5 class="card-title mt-2">Курс по программированию на PHP</h5>\n
+                          <span class='cart-status cart-status_free'>\n
+                              Бесплатный\n
+                                                  </span>\n
+                          <p class="card-text text-truncate-with-dots">Описание курса по программированию на PHP</p>\n
+                          \n
+                      </div>\n
+                      <div class='cart-footer p-3 pt-0'>\n
+                          <a href="/courses/1" class="btn btn-primary">Подробнее</a>\n
+                          <span class='text-secondary m-2'>\n
+                                                                              Куплено\n
+                                                                      </span>\n
+                      </div>\n
+                      </div>\n
+                  </div>\n
+                          <div class="col-6">\n
+                      <div class='card'> \n
+                      <div class="card-body">               \n
+                          <h5 class="card-title mt-2">Курс по веб-разработке на JavaScript</h5>\n
+                          <span class='cart-status cart-status_buy'>\n
+                              Платный\n
+                                                          1000.25 P\n
+                                                  </span>\n
+                          <p class="card-text text-truncate-with-dots">Описание курса по веб-разработке на JavaScript</p>\n
+                          \n
+                      </div>\n
+                      <div class='cart-footer p-3 pt-0'>\n
+                          <a href="/courses/2" class="btn btn-primary">Подробнее</a>\n
+                          <span class='text-secondary m-2'>\n
+                                                                              Арендовано до 05.06.2024 08:07\n
+                                                                      </span>\n
+                      </div>\n
+                      </div>\n
+                  </div>\n
+                          <div class="col-6">\n
+                      <div class='card'> \n
+                      <div class="card-body">               \n
+                          <h5 class="card-title mt-2">Курс по разработке мобильных приложений на Swift</h5>\n
+                          <span class='cart-status cart-status_rent'>\n
+                              Аренда\n
+                                                          250.00 P\n
+                                                  </span>\n
+                          <p class="card-text text-truncate-with-dots">Описание курса по разработке мобильных приложений на Swift</p>\n
+                          \n
+                      </div>\n
+                      <div class='cart-footer p-3 pt-0'>\n
+                          <a href="/courses/3" class="btn btn-primary">Подробнее</a>\n
+                          <span class='text-secondary m-2'>\n
+                                              </span>\n
+                      </div>\n
+                      </div>\n
+                  </div>\n
+                      </div>\n
+          </div>\n
+      \n
+          <a class='btn btn-success' href="/courses/new">+ Добавить</a>\n
+              </main>\n
+          </body>\n
+      </html>\n
+      """
+    -status: 200
+    -headers: array:5 [
+      "cache-control" => array:1 [
+        0 => "max-age=0, must-revalidate, private"
+      ]
+      "date" => array:1 [
+        0 => "Tue, 28 May 2024 16:47:03 GMT"
+      ]
+      "content-type" => array:1 [
+        0 => "text/html; charset=UTF-8"
+      ]
+      "x-robots-tag" => array:1 [
+        0 => "noindex"
+      ]
+      "expires" => array:1 [
+        0 => "Tue, 28 May 2024 16:47:03 GMT"
+      ]
+    ]
+    -jsonData: ? array
+  }
+  #response: Symfony\Component\HttpFoundation\Response {#1469
+    +headers: Symfony\Component\HttpFoundation\ResponseHeaderBag {#2141
+      #headers: array:5 [
+        "cache-control" => array:1 [
+          0 => "max-age=0, must-revalidate, private"
+        ]
+        "date" => array:1 [
+          0 => "Tue, 28 May 2024 16:47:03 GMT"
+        ]
+        "content-type" => array:1 [
+          0 => "text/html; charset=UTF-8"
+        ]
+        "x-robots-tag" => array:1 [
+          0 => "noindex"
+        ]
+        "expires" => array:1 [
+          0 => "Tue, 28 May 2024 16:47:03 GMT"
+        ]
+      ]
+      #cacheControl: array:3 [
+        "max-age" => "0"
+        "must-revalidate" => true
+        "private" => true
+      ]
+      #computedCacheControl: array:3 [
+        "max-age" => "0"
+        "must-revalidate" => true
+        "private" => true
+      ]
+      #cookies: []
+      #headerNames: array:5 [
+        "cache-control" => "Cache-Control"
+        "date" => "Date"
+        "content-type" => "Content-Type"
+        "x-robots-tag" => "X-Robots-Tag"
+        "expires" => "Expires"
+      ]
+    }
+    #content: """
+      <!DOCTYPE html>\n
+      <html>\n
+          <head>\n
+              <meta charset="UTF-8">\n
+              <title>Список курсов</title>\n
+              <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">\n
+                          <link rel="stylesheet" href="/build/vendors-node_modules_bootstrap_dist_js_bootstrap_esm_js-node_modules_primeicons_primeicons_css.css"><link rel="stylesheet" href="/build/app.css">\n
+              \n
+                          <script src="/build/runtime.js" defer></script><script src="/build/vendors-node_modules_bootstrap_dist_js_bootstrap_esm_js-node_modules_primeicons_primeicons_css.js" defer></script><script src="/build/app.js" defer></script>\n
+                  \n
+      <script type="importmap" data-turbo-track="reload">\n
+      {\n
+          "imports": {\n
+              "app": "/assets/app-bea2202b0ec52e82443d3a735934c6fd.js",\n
+              "/assets/styles/app.scss": "/assets/styles/app-707c2f9a44972c5e0a806f5f52f64ed9.scss",\n
+              "@hotwired/stimulus": "/assets/vendor/@hotwired/stimulus/stimulus.index-b5b1d00e42695b8959b4a1e94e3bc92a.js",\n
+              "@symfony/stimulus-bundle": "/assets/@symfony/stimulus-bundle/loader-e1ee9ace0562f2e6a52301e4ccc8627d.js",\n
+              "/assets/@symfony/stimulus-bundle/controllers.js": "/assets/@symfony/stimulus-bundle/controllers-9d42643c079ab11f27a3a9614f81cc2f.js",\n
+              "/assets/@symfony/ux-turbo/turbo_controller.js": "/assets/@symfony/ux-turbo/turbo_controller-ce5e32dafdec0b7752f02e3e2cb25751.js",\n
+              "/assets/controllers/hello_controller.js": "/assets/controllers/hello_controller-55882fcad241d2bea50276ea485583bc.js",\n
+              "@hotwired/turbo": "/assets/vendor/@hotwired/turbo/turbo.index-810f44ef1a202a441e4866b7a4c72d11.js"\n
+          }\n
+      }\n
+      </script>\n
+      <!-- ES Module Shims: Import maps polyfill for modules browsers without import maps support -->\n
+      <script async src="https://ga.jspm.io/npm:es-module-shims@1.8.0/dist/es-module-shims.js" data-turbo-track="reload"></script>\n
+      <link rel="modulepreload" href="/assets/app-bea2202b0ec52e82443d3a735934c6fd.js">\n
+      <link rel="modulepreload" href="/assets/styles/app-707c2f9a44972c5e0a806f5f52f64ed9.scss">\n
+      <script type="module" data-turbo-track="reload">import 'app';</script>        \n
+                  </head>\n
+          <body>\n
+              <header>\n
+                  <p class='logo'>StudyOn</p>\n
+      \n
+                  <nav>\n
+                      <div>\n
+                          <a href="/courses/">Курсы</a>\n
+                      </div>\n
+                  </nav>\n
+      \n
+                  <div class='profile-links'>            \n
+                                          <a class="" href="/profile/">\n
+                              <span class="pi pi-user"></span>\n
+                          </a>\n
+                          <a class="" href="/logout">\n
+                          <span class="pi pi-sign-out"></span> \n
+                          </a>\n
+                       \n
+                  </div>\n
+              </header>\n
+              <main class='container'>\n
+                                  <h1>Список курсов</h1>\n
+      \n
+          <div class="container">\n
+              <div class="row g-4 mb-3 mt-2">\n
+                          <div class="col-6">\n
+                      <div class='card'> \n
+                      <div class="card-body">               \n
+                          <h5 class="card-title mt-2">Курс по программированию на PHP</h5>\n
+                          <span class='cart-status cart-status_free'>\n
+                              Бесплатный\n
+                                                  </span>\n
+                          <p class="card-text text-truncate-with-dots">Описание курса по программированию на PHP</p>\n
+                          \n
+                      </div>\n
+                      <div class='cart-footer p-3 pt-0'>\n
+                          <a href="/courses/1" class="btn btn-primary">Подробнее</a>\n
+                          <span class='text-secondary m-2'>\n
+                                                                              Куплено\n
+                                                                      </span>\n
+                      </div>\n
+                      </div>\n
+                  </div>\n
+                          <div class="col-6">\n
+                      <div class='card'> \n
+                      <div class="card-body">               \n
+                          <h5 class="card-title mt-2">Курс по веб-разработке на JavaScript</h5>\n
+                          <span class='cart-status cart-status_buy'>\n
+                              Платный\n
+                                                          1000.25 P\n
+                                                  </span>\n
+                          <p class="card-text text-truncate-with-dots">Описание курса по веб-разработке на JavaScript</p>\n
+                          \n
+                      </div>\n
+                      <div class='cart-footer p-3 pt-0'>\n
+                          <a href="/courses/2" class="btn btn-primary">Подробнее</a>\n
+                          <span class='text-secondary m-2'>\n
+                                                                              Арендовано до 05.06.2024 08:07\n
+                                                                      </span>\n
+                      </div>\n
+                      </div>\n
+                  </div>\n
+                          <div class="col-6">\n
+                      <div class='card'> \n
+                      <div class="card-body">               \n
+                          <h5 class="card-title mt-2">Курс по разработке мобильных приложений на Swift</h5>\n
+                          <span class='cart-status cart-status_rent'>\n
+                              Аренда\n
+                                                          250.00 P\n
+                                                  </span>\n
+                          <p class="card-text text-truncate-with-dots">Описание курса по разработке мобильных приложений на Swift</p>\n
+                          \n
+                      </div>\n
+                      <div class='cart-footer p-3 pt-0'>\n
+                          <a href="/courses/3" class="btn btn-primary">Подробнее</a>\n
+                          <span class='text-secondary m-2'>\n
+                                              </span>\n
+                      </div>\n
+                      </div>\n
+                  </div>\n
+                      </div>\n
+          </div>\n
+      \n
+          <a class='btn btn-success' href="/courses/new">+ Добавить</a>\n
+              </main>\n
+          </body>\n
+      </html>\n
+      """
+    #version: "1.1"
+    #statusCode: 200
+    #statusText: "OK"
+    #charset: "UTF-8"
+    -sentHeaders: ? array
+  }
+  #crawler: Symfony\Component\DomCrawler\Crawler {#2264
+    #uri: "http://localhost/courses/"
+    -defaultNamespacePrefix: "default"
+    -namespaces: []
+    -cachedNamespaces: ArrayObject {#2379
+      storage: []
+      flag::STD_PROP_LIST: false
+      flag::ARRAY_AS_PROPS: false
+      iteratorClass: "ArrayIterator"
+    }
+    -baseHref: "http://localhost/courses/"
+    -document: DOMDocument {#2378
+      +nodeName: ? string
+      +nodeValue: ? ?string
+      +nodeType: ? int
+      +parentNode: ? ?DOMNode
+      +childNodes: ? DOMNodeList
+      +firstChild: ? ?DOMNode
+      +lastChild: ? ?DOMNode
+      +previousSibling: ? ?DOMNode
+      +nextSibling: ? ?DOMNode
+      +attributes: ? ?DOMNamedNodeMap
+      +ownerDocument: ? ?DOMDocument
+      +namespaceURI: ? ?string
+      +prefix: ? string
+      +localName: ? ?string
+      +baseURI: ? ?string
+      +textContent: ? string
+      +doctype: ? ?DOMDocumentType
+      +implementation: ? DOMImplementation
+      +documentElement: ? ?DOMElement
+      +actualEncoding: ? ?string
+      +encoding: ? ?string
+      +xmlEncoding: ? ?string
+      +standalone: ? bool
+      +xmlStandalone: ? bool
+      +version: ? ?string
+      +xmlVersion: ? ?string
+      +strictErrorChecking: ? bool
+      +documentURI: ? ?string
+      +config: ? mixed
+      +formatOutput: ? bool
+      +validateOnParse: ? bool
+      +resolveExternals: ? bool
+      +preserveWhiteSpace: ? bool
+      +recover: ? bool
+      +substituteEntities: ? bool
+      +firstElementChild: ? ?DOMElement
+      +lastElementChild: ? ?DOMElement
+      +childElementCount: ? int
+      xml: """
+        <?xml version="1.0" encoding="UTF-8"?>\n
+        <!DOCTYPE html>\n
+        <html><head>\n
+                <meta charset="UTF-8"/>\n
+                <title>Список курсов</title>\n
+                <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22&gt;&lt;text y=%221.2em%22 font-size=%2296%22&gt;⚫️&lt;/text&gt;&lt;text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22&gt;sf&lt;/text&gt;&lt;/svg&gt;"/>\n
+                            <link rel="stylesheet" href="/build/vendors-node_modules_bootstrap_dist_js_bootstrap_esm_js-node_modules_primeicons_primeicons_css.css"/><link rel="stylesheet" href="/build/app.css"/>\n
+                \n
+                            <script src="/build/runtime.js" defer=""></script><script src="/build/vendors-node_modules_bootstrap_dist_js_bootstrap_esm_js-node_modules_primeicons_primeicons_css.js" defer=""></script><script src="/build/app.js" defer=""></script>\n
+                    \n
+        <script type="importmap" data-turbo-track="reload">\n
+        {\n
+            "imports": {\n
+                "app": "/assets/app-bea2202b0ec52e82443d3a735934c6fd.js",\n
+                "/assets/styles/app.scss": "/assets/styles/app-707c2f9a44972c5e0a806f5f52f64ed9.scss",\n
+                "@hotwired/stimulus": "/assets/vendor/@hotwired/stimulus/stimulus.index-b5b1d00e42695b8959b4a1e94e3bc92a.js",\n
+                "@symfony/stimulus-bundle": "/assets/@symfony/stimulus-bundle/loader-e1ee9ace0562f2e6a52301e4ccc8627d.js",\n
+                "/assets/@symfony/stimulus-bundle/controllers.js": "/assets/@symfony/stimulus-bundle/controllers-9d42643c079ab11f27a3a9614f81cc2f.js",\n
+                "/assets/@symfony/ux-turbo/turbo_controller.js": "/assets/@symfony/ux-turbo/turbo_controller-ce5e32dafdec0b7752f02e3e2cb25751.js",\n
+                "/assets/controllers/hello_controller.js": "/assets/controllers/hello_controller-55882fcad241d2bea50276ea485583bc.js",\n
+                "@hotwired/turbo": "/assets/vendor/@hotwired/turbo/turbo.index-810f44ef1a202a441e4866b7a4c72d11.js"\n
+            }\n
+        }\n
+        </script>\n
+        <!-- ES Module Shims: Import maps polyfill for modules browsers without import maps support -->\n
+        <script async="" src="https://ga.jspm.io/npm:es-module-shims@1.8.0/dist/es-module-shims.js" data-turbo-track="reload"></script>\n
+        <link rel="modulepreload" href="/assets/app-bea2202b0ec52e82443d3a735934c6fd.js"/>\n
+        <link rel="modulepreload" href="/assets/styles/app-707c2f9a44972c5e0a806f5f52f64ed9.scss"/>\n
+        <script type="module" data-turbo-track="reload">import 'app';</script>        \n
+                    </head>\n
+            <body>\n
+                <header>\n
+                    <p class="logo">StudyOn</p>\n
+        \n
+                    <nav>\n
+                        <div>\n
+                            <a href="/courses/">Курсы</a>\n
+                        </div>\n
+                    </nav>\n
+        \n
+                    <div class="profile-links">            \n
+                                            <a class="" href="/profile/">\n
+                                <span class="pi pi-user"/>\n
+                            </a>\n
+                            <a class="" href="/logout">\n
+                            <span class="pi pi-sign-out"/> \n
+                            </a>\n
+                         \n
+                    </div>\n
+                </header>\n
+                <main class="container">\n
+                                    <h1>Список курсов</h1>\n
+        \n
+            <div class="container">\n
+                <div class="row g-4 mb-3 mt-2">\n
+                            <div class="col-6">\n
+                        <div class="card"> \n
+                        <div class="card-body">               \n
+                            <h5 class="card-title mt-2">Курс по программированию на PHP</h5>\n
+                            <span class="cart-status cart-status_free">\n
+                                Бесплатный\n
+                                                    </span>\n
+                            <p class="card-text text-truncate-with-dots">Описание курса по программированию на PHP</p>\n
+                            \n
+                        </div>\n
+                        <div class="cart-footer p-3 pt-0">\n
+                            <a href="/courses/1" class="btn btn-primary">Подробнее</a>\n
+                            <span class="text-secondary m-2">\n
+                                                                                Куплено\n
+                                                                        </span>\n
+                        </div>\n
+                        </div>\n
+                    </div>\n
+                            <div class="col-6">\n
+                        <div class="card"> \n
+                        <div class="card-body">               \n
+                            <h5 class="card-title mt-2">Курс по веб-разработке на JavaScript</h5>\n
+                            <span class="cart-status cart-status_buy">\n
+                                Платный\n
+                                                            1000.25 P\n
+                                                    </span>\n
+                            <p class="card-text text-truncate-with-dots">Описание курса по веб-разработке на JavaScript</p>\n
+                            \n
+                        </div>\n
+                        <div class="cart-footer p-3 pt-0">\n
+                            <a href="/courses/2" class="btn btn-primary">Подробнее</a>\n
+                            <span class="text-secondary m-2">\n
+                                                                                Арендовано до 05.06.2024 08:07\n
+                                                                        </span>\n
+                        </div>\n
+                        </div>\n
+                    </div>\n
+                            <div class="col-6">\n
+                        <div class="card"> \n
+                        <div class="card-body">               \n
+                            <h5 class="card-title mt-2">Курс по разработке мобильных приложений на Swift</h5>\n
+                            <span class="cart-status cart-status_rent">\n
+                                Аренда\n
+                                                            250.00 P\n
+                                                    </span>\n
+                            <p class="card-text text-truncate-with-dots">Описание курса по разработке мобильных приложений на Swift</p>\n
+                            \n
+                        </div>\n
+                        <div class="cart-footer p-3 pt-0">\n
+                            <a href="/courses/3" class="btn btn-primary">Подробнее</a>\n
+                            <span class="text-secondary m-2">\n
+                                                </span>\n
+                        </div>\n
+                        </div>\n
+                    </div>\n
+                        </div>\n
+            </div>\n
+        \n
+            <a class="btn btn-success" href="/courses/new">+ Добавить</a>\n
+                </main>\n
+            </body>\n
+        \n
+        </html>\n
+        """
+    }
+    -nodes: array:1 [
+      0 => DOMElement {#2380
+        +nodeName: ? string
+        +nodeValue: ? ?string
+        +nodeType: ? int
+        +parentNode: ? ?DOMNode
+        +childNodes: ? DOMNodeList
+        +firstChild: ? ?DOMNode
+        +lastChild: ? ?DOMNode
+        +previousSibling: ? ?DOMNode
+        +nextSibling: ? ?DOMNode
+        +attributes: ? ?DOMNamedNodeMap
+        +ownerDocument: ? ?DOMDocument
+        +namespaceURI: ? ?string
+        +prefix: ? string
+        +localName: ? ?string
+        +baseURI: ? ?string
+        +textContent: ? string
+        +tagName: ? string
+        +schemaTypeInfo: null
+        +firstElementChild: ? ?DOMElement
+        +lastElementChild: ? ?DOMElement
+        +childElementCount: ? int
+        +previousElementSibling: ? ?DOMElement
+        +nextElementSibling: ? ?DOMElement
+      }
+    ]
+    -isHtml: true
+    -html5Parser: Masterminds\HTML5 {#2382
+      -defaultOptions: array:2 [
+        "encode_entities" => false
+        "disable_html_ns" => true
+      ]
+      #errors: []
+    }
+  }
+  #useHtml5Parser: true
+  #insulated: false
+  #redirect: null
+  #followRedirects: false
+  #followMetaRefresh: false
+  -maxRedirects: -1
+  -redirectCount: 1
+  -redirects: []
+  -isMainRequest: true
+  #kernel: App\Kernel {#1884
+    #bundles: array:13 [
+      "FrameworkBundle" => Symfony\Bundle\FrameworkBundle\FrameworkBundle {#1931
+        #name: "FrameworkBundle"
+        #extension: null
+        #path: ? string
+        #container: ContainerItBgU2I\App_KernelTestDebugContainer {#1957 …20}
+        -namespace: "Symfony\Bundle\FrameworkBundle"
+      }
+      "DoctrineBundle" => Doctrine\Bundle\DoctrineBundle\DoctrineBundle {#1939
+        #name: "DoctrineBundle"
+        #extension: null
+        #path: ? string
+        #container: & ContainerItBgU2I\App_KernelTestDebugContainer {#1957 …20}
+        -namespace: "Doctrine\Bundle\DoctrineBundle"
+        -autoloader: Closure(string $className): void {#1486
+          returnType: "void"
+          class: "Doctrine\ORM\Proxy\Autoloader"
+          use: {
+            $proxyDir: "/app/var/cache/test/doctrine/orm/Proxies"
+            $proxyNamespace: "Proxies"
+            $notFoundCallback: Closure($proxyDir, $proxyNamespace, $class): void {#1916 …}
+          }
+        }
+      }
+      "DoctrineMigrationsBundle" => Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle {#1959
+        #name: "DoctrineMigrationsBundle"
+        #extension: null
+        #path: ? string
+        #container: ContainerItBgU2I\App_KernelTestDebugContainer {#1957 …20}
+        -namespace: "Doctrine\Bundle\MigrationsBundle"
+      }
+      "TwigBundle" => Symfony\Bundle\TwigBundle\TwigBundle {#1904
+        #name: "TwigBundle"
+        #extension: null
+        #path: ? string
+        #container: ContainerItBgU2I\App_KernelTestDebugContainer {#1957 …20}
+        -namespace: "Symfony\Bundle\TwigBundle"
+      }
+      "WebProfilerBundle" => Symfony\Bundle\WebProfilerBundle\WebProfilerBundle {#1958
+        #name: "WebProfilerBundle"
+        #extension: null
+        #path: ? string
+        #container: ContainerItBgU2I\App_KernelTestDebugContainer {#1957 …20}
+        -namespace: "Symfony\Bundle\WebProfilerBundle"
+      }
+      "StimulusBundle" => Symfony\UX\StimulusBundle\StimulusBundle {#1932
+        #name: "StimulusBundle"
+        #extension: null
+        #path: ? string
+        #container: ContainerItBgU2I\App_KernelTestDebugContainer {#1957 …20}
+        -namespace: "Symfony\UX\StimulusBundle"
+      }
+      "TurboBundle" => Symfony\UX\Turbo\TurboBundle {#1922
+        #name: "TurboBundle"
+        #extension: null
+        #path: ? string
+        #container: ContainerItBgU2I\App_KernelTestDebugContainer {#1957 …20}
+        -namespace: "Symfony\UX\Turbo"
+      }
+      "TwigExtraBundle" => Twig\Extra\TwigExtraBundle\TwigExtraBundle {#1926
+        #name: "TwigExtraBundle"
+        #extension: null
+        #path: ? string
+        #container: ContainerItBgU2I\App_KernelTestDebugContainer {#1957 …20}
+        -namespace: "Twig\Extra\TwigExtraBundle"
+      }
+      "SecurityBundle" => Symfony\Bundle\SecurityBundle\SecurityBundle {#1956
+        #name: "SecurityBundle"
+        #extension: null
+        #path: ? string
+        #container: ContainerItBgU2I\App_KernelTestDebugContainer {#1957 …20}
+        -namespace: "Symfony\Bundle\SecurityBundle"
+      }
+      "MonologBundle" => Symfony\Bundle\MonologBundle\MonologBundle {#1909
+        #name: "MonologBundle"
+        #extension: null
+        #path: ? string
+        #container: ContainerItBgU2I\App_KernelTestDebugContainer {#1957 …20}
+        -namespace: "Symfony\Bundle\MonologBundle"
+      }
+      "DoctrineFixturesBundle" => Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle {#1930
+        #name: "DoctrineFixturesBundle"
+        #extension: null
+        #path: ? string
+        #container: ContainerItBgU2I\App_KernelTestDebugContainer {#1957 …20}
+        -namespace: "Doctrine\Bundle\FixturesBundle"
+      }
+      "WebpackEncoreBundle" => Symfony\WebpackEncoreBundle\WebpackEncoreBundle {#1883
+        #name: "WebpackEncoreBundle"
+        #extension: null
+        #path: ? string
+        #container: ContainerItBgU2I\App_KernelTestDebugContainer {#1957 …20}
+        -namespace: "Symfony\WebpackEncoreBundle"
+      }
+      "DAMADoctrineTestBundle" => DAMA\DoctrineTestBundle\DAMADoctrineTestBundle {#1906
+        #name: "DAMADoctrineTestBundle"
+        #extension: null
+        #path: ? string
+        #container: ContainerItBgU2I\App_KernelTestDebugContainer {#1957 …20}
+        -namespace: "DAMA\DoctrineTestBundle"
+      }
+    ]
+    #container: ContainerItBgU2I\App_KernelTestDebugContainer {#1957 …20}
+    #environment: "test"
+    #debug: true
+    #booted: true
+    #startTime: 1716914823.0903
+    -projectDir: "/app"
+    -warmupDir: null
+    -requestStackSize: 0
+    -resetServices: true
+  }
+  -catchExceptions: true
+  -hasPerformedRequest: true
+  -profiler: false
+  -reboot: false
+}
+
+Remaining indirect deprecation notices (2)
+
+  2x: Relying on non-optimal defaults for ID generation is deprecated, and IDENTITY
+results in SERIAL, which is not recommended.
+Instead, configure identifier generation strategies explicitly through
+configuration.
+We currently recommend "SEQUENCE" for "Doctrine\DBAL\Platforms\PostgreSQLPlatform", when using DBAL 3,
+and "IDENTITY" when using DBAL 4,
+so you should probably use the following configuration before upgrading to DBAL 4,
+and remove it after deploying that upgrade:
+
+$configuration->setIdentityGenerationPreferences([
+    "Doctrine\DBAL\Platforms\PostgreSQLPlatform" => ClassMetadata::GENERATOR_TYPE_SEQUENCE,
+]);
+ (ClassMetadataFactory.php:635 called by ClassMetadataFactory.php:546, https://github.com/doctrine/orm/issues/8893, package doctrine/orm)
+    2x in CourseFunctionaltest::setUp from App\Tests
+

@@ -49,6 +49,10 @@ class CourseHelper
 
         $responseMap = [];
         foreach ($transactions as $item) {
+            if (!isset($item['course_code'])){
+                continue;
+            }
+
             $responseMap[$item['course_code']] = $item;
         }
 
