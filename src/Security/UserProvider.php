@@ -4,7 +4,7 @@ namespace App\Security;
 
 use App\Exception\BillingUnavailableException;
 use App\Service\BillingClient;
-use App\Service\JwtDecoder;
+use App\Helpers\JwtDecoder;
 use JsonException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;

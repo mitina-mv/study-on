@@ -67,6 +67,7 @@ class BillingClient
     public function transactions(string $token, array $filter = null) : array
     {
         $url = $this->billing . '/api/v1/transactions?' . http_build_query(['filter' => $filter]);
-        return BillingRequstService::get($url, $token);
+        // TODO [0] - непонятно откуда берется доп вложенность
+        return BillingRequstService::get($url, $token)[0];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Course;
 use App\Form\CourseType;
+use App\Helpers\CourseHelper;
 use App\Repository\CourseRepository;
 use App\Service\BillingClient;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,23 +28,28 @@ class CourseController extends AbstractController
         CourseRepository $courseRepository,
         HttpClientInterface $client
     ): Response {
-        /* $courseResponse = $client->request(
-            'GET',
-            'http://billing.study-on.loc/api/v1/courses'
-        );
+        $coursesAll = $courseRepository->findAll();
+        $courseResponse = $this->billingClient->courses();
+
+        $courses = CourseHelper::merge($courseResponse, $coursesAll);
+        
         $user = $this->getUser();
 
-        dd($courseResponse); */
-
-        /* if ($user !== null) {
+        if ($user !== null) {
             $transactions = $this->billingClient->transactions(
-                $user->getToken(),
+                $user->getApiToken(),
                 ['skip_expired' => true, 'type' => 'payment']
             );
-        } */
+
+            if (!empty($transactions)) {
+                $courses = CourseHelper::addTransactions($courses, $transactions);
+            }
+        }
+
+        dd($courses);
 
         return $this->render('course/index.html.twig', [
-            'courses' => $courseRepository->findAll(),
+            'courses' => $courses,
         ]);
     }
 
