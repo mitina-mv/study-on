@@ -4,6 +4,12 @@ namespace App\Helpers;
 
 class CourseHelper
 {
+    public static $typeNames = [
+        'free' => 'Бесплатный',
+        'rent' => 'В аренду',
+        'buy' => 'Платный'
+    ];
+    
     public static function merge(array $response, array $courses): array
     {
         $result = [];
@@ -28,6 +34,8 @@ class CourseHelper
                     $item['price'] = $responseMap[$code]['price'];
                 }
             }
+
+            $item['type_name'] = self::$typeNames[$item['type']];
             
             $result[] = $item;
         }

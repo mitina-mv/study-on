@@ -65,3 +65,22 @@ main {
     white-space: nowrap;
     width: 100%;
 }
+
+.cart-status {
+    position: absolute;
+    padding: .25em .5em;
+    background: var(--bs-teal);
+    color: #fff;
+    border-radius: 10px;
+    top: 0px;
+    margin-top: -12px;
+    right: .75em;
+}
+
+.cart-status_buy {
+    background: var(--bs-red);
+}
+
+.cart-status_rent {
+    background: var(--bs-orange);
+}

@@ -46,8 +46,6 @@ class CourseController extends AbstractController
             }
         }
 
-        dd($courses);
-
         return $this->render('course/index.html.twig', [
             'courses' => $courses,
         ]);
