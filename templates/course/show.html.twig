@@ -15,25 +15,37 @@
     <h1>
         {{ course.title }}
     </h1>
-        {% if is_granted('ROLE_USER') and course.type != 'free' %}
-            {% if course.transaction != null %}
-                <span class='text-primary fs-4 fw-bold fst-italic'>
-                    {% if course.transaction.expires_at %}
-                        Арендовано до {{ course.transaction.expires_at|date("d.m.Y H:i") }}
-                    {% else %}
-                        Куплено
-                    {% endif %}
-                </span>
-            {% else %}
-                <a type="button" data-bs-toggle="modal" data-bs-target="#modal"
-                    {% if disabled == true %}
-                        class="btn-success btn mb-2 disabled" aria-disabled="true"
-                    {% else %}
-                        class="btn-success btn mb-2"
-                    {% endif %}
-                >{{ course.type == 'rent' ? "Арендовать" : "Купить" }}</a>
-            {% endif %}
+    {% for message in app.flashes('success') %}
+        <div class="mt-2 alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="mt-2 alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {% if is_granted('ROLE_USER') and course.type != 'free' %}
+        {% if course.transaction != null %}
+            <span class='text-primary fs-4 fw-bold fst-italic'>
+                {% if course.transaction.expires_at %}
+                    Арендовано до {{ course.transaction.expires_at|date("d.m.Y H:i") }}
+                {% else %}
+                    Куплено
+                {% endif %}
+            </span>
+        {% else %}
+            <a type="button" data-bs-toggle="modal" data-bs-target="#modal"
+                {% if disabled == true %}
+                    class="btn-success btn mb-2 disabled" aria-disabled="true"
+                {% else %}
+                    class="btn-success btn mb-2"
+                {% endif %}
+            >{{ course.type == 'rent' ? "Арендовать" : "Купить" }}</a>
         {% endif %}
+    {% endif %}
+    
     <p>Вид доступа: {{ course.type_name }}</p>
     {% if course.type != 'free' %}
         <p>Стоимость: {{ course.price }} P</p>

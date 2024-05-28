@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 #[Route('/courses')]
 class CourseController extends AbstractController
@@ -26,8 +25,7 @@ class CourseController extends AbstractController
     
     #[Route('/', name: 'app_course_index', methods: ['GET'])]
     public function index(
-        CourseRepository $courseRepository,
-        HttpClientInterface $client
+        CourseRepository $courseRepository
     ): Response {
         $coursesAll = $courseRepository->findAll();
         $courseResponse = $this->billingClient->courses();
