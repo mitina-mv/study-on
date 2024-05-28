@@ -2,6 +2,15 @@
 
 {% block title %}{{ course.title }}{% endblock %}
 
+{% block breadcrumbs %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('app_course_index') }}">Главная</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ course.title }}</li>
+    </ol>
+</nav>
+{% endblock %}
+
 {% block body %}
     <h1>{{ course.title }}</h1>
     <p>{{ course.description }}</p>

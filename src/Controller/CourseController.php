@@ -41,10 +41,10 @@ class CourseController extends AbstractController
                 ['skip_expired' => true, 'type' => 'payment']
             );
 
-            if (!empty($transactions)) {
-                $courses = CourseHelper::addTransactions($courses, $transactions);
-            }
+            $courses = CourseHelper::addTransactions($courses, $transactions);
         }
+
+        // dd($courses);
 
         return $this->render('course/index.html.twig', [
             'courses' => $courses,
