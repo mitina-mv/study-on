@@ -71,7 +71,7 @@ class BillingClientMock extends BillingClient
             $payload = json_decode(base64_decode($parts[1]), true, 512, JSON_THROW_ON_ERROR);
 
             return [
-                'balance' => 1000.0,
+                'balance' => 1005.0,
                 'roles' => $payload['roles'],
                 'username' => $payload['username'],
                 'code' => 200
@@ -111,29 +111,142 @@ class BillingClientMock extends BillingClient
 
     public function transactions(string $token, array $filter = null): array
     {
-        return [
+        $transactions = [
             [
                 'id' => 1,
-                "create_at" => "2024-05-28UTC08:16:12",
+                "create_at" => date('Y-m-dTH:i:s', time() - 2 * 24 * 60 * 60),
                 "type" => "payment",
-                "course_code" => "php",
-                "amount" => 25999.9,
+                "course_code" => "php-gold",
+                "amount" => 2500,
                 'expires_at' => null,
             ],
             [
                 'id' => 2,
-                "create_at" => "2024-05-29UTC08:07:33",
+                "create_at" => date('Y-m-dTH:i:s', time()),
                 "type" => "payment",
                 "course_code" => "js",
-                "expires_at" => "2024-06-05UTC08:07:33",
-                "amount" => 1999.9,
+                "expires_at" => date('Y-m-dTH:i:s', time() + 7 * 24 * 60 * 60),
+                "amount" => 1000,
             ],
             [
                 'id' => 3,
-                "create_at" => "2024-05-27UTC08:02:56",
+                "create_at" => date('Y-m-dTH:i:s', time() - 5 * 24 * 60 * 60),
                 "type" => "deposit",
                 "amount" => 1000000,
             ],
         ];
+
+        if (!$filter) {
+            return $transactions;
+        }
+    
+        return array_filter($transactions, function ($transaction) use ($filter) {
+            if (isset($filter['course_code']) && (!isset($transaction['course_code']) || $transaction['course_code'] !== $filter['course_code'])) {
+                return false;
+            }
+    
+            if (isset($filter['skip_expired']) && isset($transaction['expires_at'])
+                && new \DateTime($transaction['expires_at']) <= new \DateTime('now')
+            ) {
+                return false;
+            }
+    
+            if (isset($filter['type']) && $transaction['type'] !== $filter['type']) {
+                return false;
+            }
+    
+            return true;
+        });
+    }
+
+    public function courses(): array
+    {
+        return [
+            [
+                'code' => 'php',
+                'type' => 'free'
+            ],
+            [
+                'code' => 'js',
+                'type' => 'rent',
+                'price' => 1000
+            ],
+            [
+                'code' => 'ruby',
+                'type' => 'rent',
+                'price' => 250
+            ],
+            [
+                'code' => 'swift',
+                'type' => 'buy',
+                'price' => 2500
+            ]
+        ];
+    }
+
+    public function course($code): array
+    {
+        $courses = $this->courses();
+
+        foreach ($courses as $course) {
+            if ($course['code'] == $code) {
+                return $course;
+            }
+        }
+        
+        return [
+            'code' => 401,
+            'message' => 'Не найден курс с данным кодом.'
+        ];
+    }
+
+    public function payment(string $token, string $code): array
+    {
+        $user = $this->getCurrentUser($token);
+        $course = $this->course($code);
+        
+        if (!isset($course['code'])) {
+            return $course;
+        }
+
+        if ($course['type'] === 'free') {
+            return [
+                'code' => 406,
+                'message' => 'Курс бесплатный. Оплата не требуется.'
+            ];
+        } else {
+            $transactions = $this->transactions($token, [
+                'course_code' => $code,
+                'skip_expired' => true
+            ]);
+
+            if (count($transactions) !== 0) {
+                return [
+                    'code' => 406,
+                    'message' => 'Доступ к курсу актуален. Оплата не требуется.'
+                ];
+            }
+            if ($user['balance'] < $course['price']) {
+                return [
+                    'code' => 406,
+                    'message' => 'На вашем счету недостаточно средств.'
+                ];
+            }
+
+            $result = [
+                'id' => 1,
+                "create_at" => date('Y-m-dTH:i:s', time()),
+                "type" => "payment",
+                "course_code" => $course['code'],
+                "amount" => 2500,
+                'expires_at' => null,
+            ];
+
+            if ($course['type'] == 'rent') {
+                $result['expires_at'] = date('Y-m-dTH:i:s', time() + 432000);
+            }
+            
+            return $result;
+        }
     }
 }

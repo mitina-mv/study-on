@@ -33,12 +33,26 @@ class ProfileFunctionalTest extends AbstractTest
 
         // страница доступна
         $response = $client->getResponse();
-        dd($response);
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
         $this->assertSelectorExists('h1', 'Профиль');
         $this->assertSelectorExists('#balance-field');
         $this->assertSelectorExists('#link-transaction', 'История транзакций');
         $this->assertSelectorExists('#logout-profile-btn', 'Выход');
+    }
+
+    public function testOkTransactionsPage(): void
+    {
+        $client = $this->createAuthorizedClient($this->adminEmail, $this->adminEmail);
+        $url = "/profile/transactions";
+
+        $client->request('GET', $url);
+
+        // страница доступна
+        $response = $client->getResponse();
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+
+        $this->assertSelectorExists('h1', 'Транзакции');
+        $this->assertSelectorExists('.table');
     }
 }

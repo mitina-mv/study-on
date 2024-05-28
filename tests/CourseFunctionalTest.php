@@ -113,7 +113,7 @@ class CourseFunctionaltest extends AbstractTest
 
         $crawler = $client->followRedirect();
 
-        $this->assertCount(4, $crawler->filter('.card'));
+        $this->assertCount(5, $crawler->filter('.card'));
     }
 
     /**
@@ -159,7 +159,7 @@ class CourseFunctionaltest extends AbstractTest
 
         $crawler = $client->followRedirect();
 
-        $this->assertCount(2, $crawler->filter('.card'));
+        $this->assertCount(3, $crawler->filter('.card'));
     }
 
     /**
@@ -269,7 +269,7 @@ class CourseFunctionaltest extends AbstractTest
 
         // сравнение текста ошибки
         $this->assertSelectorTextContains(
-            'li',
+            'li:not(.breadcrumb-item)',
             'Символьный код плохой!'
         );
 
@@ -284,7 +284,7 @@ class CourseFunctionaltest extends AbstractTest
 
         // сравнение текста ошибки
         $this->assertSelectorTextContains(
-            'li',
+            'li:not(.breadcrumb-item)',
             'Символьный код не может быть пустым'
         );
 
@@ -298,8 +298,60 @@ class CourseFunctionaltest extends AbstractTest
         $this->assertResponseCode(422);
 
         $this->assertSelectorTextContains(
-            'li',
+            'li:not(.breadcrumb-item)',
             'Название курса не может быть пустым'
         );
+    }
+
+    // покупка курса
+    public function urlProviderBuyCourse(): \Generator
+    {
+        yield ['/courses/2/buy', 'Доступ к курсу актуален. Оплата не требуется.'];
+        yield ['/courses/1/buy', 'Курс бесплатный. Оплата не требуется.'];
+        yield ['/courses/3/buy', 'На вашем счету недостаточно средств.'];
+    }
+
+    /**
+     * Тест на отправкy прямых запросов на покупку курса
+     * @dataProvider urlProviderBuyCourse
+     * Role: User
+     */
+    public function testBuyCourse($url, $message)
+    {
+        $client = $this->createAuthorizedClient($this->userEmail, $this->userEmail);
+
+        $client->request('POST', $url);
+
+        $this->assertResponseRedirect();
+
+        $crawler = $client->followRedirect();
+        $this->assertSelectorExists('.alert');
+        $this->assertSelectorTextContains('.alert', $message);
+    }
+
+    /**
+     * Тест на отправкy прямых запросов на покупку курса
+     * Role: User
+     */
+    public function testBuyCourseSuccess()
+    {
+        $client = $this->createAuthorizedClient($this->userEmail, $this->userEmail);
+
+        $crawler = $client->request('GET', '/courses/4');
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+
+        $link = $crawler->filter('#buy-course')->first();
+        $crawler = $client->click($link->link());
+
+        $button = $crawler->filter('#modalButton')->form();
+
+        $client->submit($button);
+
+        $this->assertResponseRedirect();
+
+        $crawler = $client->followRedirect();
+        $this->assertSelectorExists('.alert');
+        $this->assertSelectorTextContains('.alert', 'Курс успешно оплачен');
     }
 }

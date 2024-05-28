@@ -42,6 +42,18 @@ class CourseFixtures extends Fixture
                 ['name' => 'Разработка пользовательского интерфейса в Swift', 'description' => 'Описание пятого урока по Swift'],
             ],
         ],
+        [
+            'name' => 'Курс по разработке на Ruby',
+            'code' => 'ruby',
+            'description' => 'Описание курса по разработке мобильных приложений на Swift',
+            'lessons' => [
+                ['name' => 'Введение в Swift', 'description' => 'Описание первого урока по Swift'],
+                ['name' => 'Основы Swift', 'description' => 'Описание второго урока по Swift'],
+                ['name' => 'Работа с графикой в Swift', 'description' => 'Описание третьего урока по Swift'],
+                ['name' => 'Работа с сетью в Swift', 'description' => 'Описание четвертого урока по Swift'],
+                ['name' => 'Разработка пользовательского интерфейса в Swift', 'description' => 'Описание пятого урока по Swift'],
+            ],
+        ],
     ];
     
     public function load(ObjectManager $manager): void
