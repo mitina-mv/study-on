@@ -126,7 +126,7 @@ class LessonFunctionaltest extends AbstractTest
 
         // сравнение текста ошибки
         $this->assertSelectorTextContains(
-            'li',
+            'li:not(.breadcrumb-item)',
             'Название урока не может быть пустым'
         );
 
@@ -142,7 +142,7 @@ class LessonFunctionaltest extends AbstractTest
 
         // сравнение текста ошибки
         $this->assertSelectorTextContains(
-            'li',
+            'li:not(.breadcrumb-item)',
             'Номер урока не может быть пустым'
         );
 
@@ -158,7 +158,7 @@ class LessonFunctionaltest extends AbstractTest
 
         // сравнение текста ошибки
         $this->assertSelectorTextContains(
-            'li',
+            'li:not(.breadcrumb-item)',
             'Больше 1 000 и меньше 1 нельзя :('
         );
     }
