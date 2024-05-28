@@ -6,7 +6,7 @@ class CourseHelper
 {
     public static $typeNames = [
         'free' => 'Бесплатный',
-        'rent' => 'В аренду',
+        'rent' => 'Аренда',
         'buy' => 'Платный'
     ];
     
