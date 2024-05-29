@@ -196,7 +196,9 @@ class BillingClientMock extends BillingClient
         
         return [
             'code' => 401,
-            'message' => 'Не найден курс с данным кодом.'
+            'errors' => [
+                'course'=>'Не найден курс с данным кодом.'
+            ]
         ];
     }
 
@@ -211,8 +213,9 @@ class BillingClientMock extends BillingClient
 
         if ($course['type'] === 'free') {
             return [
-                'code' => 406,
-                'message' => 'Курс бесплатный. Оплата не требуется.'
+                'code' => 400,
+                'errors' => 
+                    ['course'=>'Курс бесплатный. Оплата не требуется.']
             ];
         } else {
             $transactions = $this->transactions($token, [
@@ -222,14 +225,16 @@ class BillingClientMock extends BillingClient
 
             if (count($transactions) !== 0) {
                 return [
-                    'code' => 406,
-                    'message' => 'Доступ к курсу актуален. Оплата не требуется.'
+                    'code' => 400,
+                    'errors' => 
+                    ['course'=>'Доступ к курсу актуален. Оплата не требуется.']
                 ];
             }
             if ($user['balance'] < $course['price']) {
                 return [
                     'code' => 406,
-                    'message' => 'На вашем счету недостаточно средств.'
+                    'errors' => 
+                    ['payment'=>'На вашем счету недостаточно средств.']
                 ];
             }
 

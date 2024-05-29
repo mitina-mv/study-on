@@ -141,7 +141,11 @@ class CourseController extends AbstractController
             );
 
             if (isset($response['code'])) {
-                $this->addFlash('error', $response['message']);
+                if (isset($response['errors']['course']))
+                    $message = $response['errors']['course'];
+                else
+                    $message = $response['errors']['payment'];
+                $this->addFlash('error', $message);
             } else {
                 $this->addFlash('success', 'Курс успешно оплачен');
             }

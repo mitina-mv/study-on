@@ -147,12 +147,42 @@ foreach ($courses as $course) {
 ! Важно. Была добавлена сикурность на роут, но она не работает почему-то (и работает не она, пришлось писать проверку что юзер не пустой)
 - { path: ^/api/v1/courses/\w+/pay, roles: IS_AUTHENTICATED_FULLY }
 ## 5. Фиксация изменения баланса
-
+! Важно. Метод пополнения баланса (в API и с StudyOn) не реализуется, только в сервисе. Почему-то. 
 
 ## 6. Оплата курсов
+Не забудь обновить баланс твоего пользователя
+```
+// обновляем баланс
+$userResponse = $this->billingClient->getCurrentUser($user->getApiToken());
+$user->setBalance($userResponse['balance']);
+```
+
+! Baжно. ОЧЕНЬ. У меня не согласованность биллинга и мока, один возвращает error[\'type\'], а мок возвращает message
+Надо это исправить когда-нибудь )
 
 ## 7. Фикстуры и тесты
+Фикстуры нужно добавить в биллинг-систему. Важно не забыть накатить миграции, а то не будет работать ))
 
+Я туда добавила обнуление сиквансов (да-да, снова о них)
+```
+// обнуление сиквансов
+$sequences = ['course_id_seq', 'transaction_id_seq'];
+
+foreach ($sequences as $sequence) {
+    $sql = sprintf("SELECT setval('%s', 1, false);", $sequence);
+    $this->connection->executeQuery($sql);
+}
+```
+И еще из интересного - чтобы транзакции в фикстурах не протухли, был сделан финт ушами с датами:
+```
+[
+    "create_at" => date('Y-m-dTH:i:s', time() - 2 * 24 * 60 * 60),
+    "type" => "payment",
+    "course_code" => "php",
+    "amount" => 2500,
+    'expires_at' => null,
+],
+```
 
 8. Заметки
 
@@ -167,4 +197,9 @@ git fsck --full
 ```
 docker stop $(docker ps -aq)
 docker remove $(docker ps -aq)
+```
+
+Если нужно запустить один тест:
+```
+docker compose exec php bin/phpunit tests/CourseTest.php
 ```
