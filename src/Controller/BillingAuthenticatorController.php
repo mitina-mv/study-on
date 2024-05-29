@@ -97,6 +97,7 @@ class BillingAuthenticatorController extends AbstractController
 
                 $user = new User();
                 $user->setApiToken($response['token']);
+                $user->setRefreshToken($response['refresh_token']);
 
                 $userResponse = $billingClient->getCurrentUser($response['token']);
 

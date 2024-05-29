@@ -2,6 +2,15 @@
 
 {% block title %}Авторизация{% endblock %}
 
+{% block breadcrumbs %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('app_course_index') }}">Главная</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Авторизация</li>
+    </ol>
+</nav>
+{% endblock %}
+
 {% block body %}
 <form method="post">
     {% if error %}

@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Course;
+use App\Exception\BillingUnavailableException;
 use App\Form\CourseType;
+use App\Helpers\CourseHelper;
 use App\Repository\CourseRepository;
+use App\Service\BillingClient;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,11 +18,33 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/courses')]
 class CourseController extends AbstractController
 {
+    public function __construct(
+        private BillingClient $billingClient,
+    ) {
+    }
+    
     #[Route('/', name: 'app_course_index', methods: ['GET'])]
-    public function index(CourseRepository $courseRepository): Response
-    {
+    public function index(
+        CourseRepository $courseRepository
+    ): Response {
+        $coursesAll = $courseRepository->findAll();
+        $courseResponse = $this->billingClient->courses();
+
+        $courses = CourseHelper::merge($courseResponse, $coursesAll);
+        
+        $user = $this->getUser();
+
+        if ($user !== null) {
+            $transactions = $this->billingClient->transactions(
+                $user->getApiToken(),
+                ['skip_expired' => true, 'type' => 'payment']
+            );
+
+            $courses = CourseHelper::addTransactions($courses, $transactions);
+        }
+
         return $this->render('course/index.html.twig', [
-            'courses' => $courseRepository->findAll(),
+            'courses' => $courses,
         ]);
     }
 
@@ -47,8 +72,29 @@ class CourseController extends AbstractController
     #[Route('/{id}', name: 'app_course_show', methods: ['GET'])]
     public function show(Course $course): Response
     {
+        $courseResponse = $this->billingClient->course($course->getCode());
+        $courseResult = CourseHelper::merge([$courseResponse], [$course]);
+
+        $user = $this->getUser();
+
+        if ($user !== null) {
+            $transactions = $this->billingClient->transactions(
+                $user->getApiToken(),
+                [
+                    'skip_expired' => true,
+                    'type' => 'payment',
+                    'course_code' => $course->getCode()
+                ]
+            );
+
+            $courseResult = CourseHelper::addTransactions($courseResult, $transactions);
+        }
+        
         return $this->render('course/show.html.twig', [
-            'course' => $course,
+            'course' => $courseResult[0],
+            'disabled' => $courseResult[0]['type'] == 'free'
+                ? false
+                : ($user->getBalance() < $courseResult[0]['price'])
         ]);
     }
 
@@ -81,5 +127,36 @@ class CourseController extends AbstractController
         }
 
         return $this->redirectToRoute('app_course_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[IsGranted('ROLE_USER')]
+    #[Route('/{id}/buy', name: 'app_course_buy', methods: ['POST'])]
+    public function buy(Course $course): Response
+    {
+        $user = $this->getUser();
+        try {
+            $response = $this->billingClient->payment(
+                $user->getApiToken(),
+                $course->getCode()
+            );
+
+            if (isset($response['code'])) {
+                if (isset($response['errors']['course']))
+                    $message = $response['errors']['course'];
+                else
+                    $message = $response['errors']['payment'];
+                $this->addFlash('error', $message);
+            } else {
+                $this->addFlash('success', 'Курс успешно оплачен');
+            }
+
+            // обновляем баланс
+            $userResponse = $this->billingClient->getCurrentUser($user->getApiToken());
+            $user->setBalance($userResponse['balance']);
+        } catch (BillingUnavailableException | \Exception $e) {
+            $this->addFlash('error', $e->getMessage());
+        }
+
+        return $this->redirectToRoute('app_course_show', ['id' => $course->getId()], Response::HTTP_SEE_OTHER);
     }
 }

@@ -9,6 +9,7 @@ class User implements UserInterface
     private $email;
     private $apiToken;
     private $balance;
+    private $refreshToken;
 
     /**
      * @var list<string> The user roles
@@ -90,5 +91,15 @@ class User implements UserInterface
     public function setBalance(float $balance): void
     {
         $this->balance = $balance;
+    }
+
+    public function getRefreshToken()
+    {
+        return $this->refreshToken;
+    }
+    
+    public function setRefreshToken($refreshToken): void
+    {
+        $this->refreshToken = $refreshToken;
     }
 }

@@ -9,6 +9,7 @@ use App\Service\BillingClient;
 use App\Tests\Mock\BillingClientMock;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class AuthTest extends AbstractTest
 {
@@ -31,7 +32,7 @@ class AuthTest extends AbstractTest
 
         $client->getContainer()->set(
             BillingClient::class,
-            new BillingClientMock('')
+            new BillingClientMock(self::getClient()->getContainer()->get(TokenStorageInterface::class))
         );
 
         return $client;

@@ -4,6 +4,7 @@ namespace App\Tests\Helpers;
 
 use App\Service\BillingClient;
 use App\Tests\Mock\BillingClientMock;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 trait AuthHelper
 {
@@ -16,9 +17,8 @@ trait AuthHelper
 
         self::createTestClient()->getContainer()->set(
             BillingClient::class,
-            new BillingClientMock()
+            new BillingClientMock(self::getClient()->getContainer()->get(TokenStorageInterface::class))
         );
-
         return self::createTestClient();
     }
     

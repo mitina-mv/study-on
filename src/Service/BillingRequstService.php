@@ -68,6 +68,8 @@ class BillingRequstService
             throw new BillingUnavailableException('Сервис временно недоступен.');
         }
         
-        return json_decode($response, true, 512, JSON_THROW_ON_ERROR);
+        $result = json_decode($response, true, 512, JSON_THROW_ON_ERROR);
+        
+        return $result;
     }
 }

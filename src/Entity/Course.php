@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Helpers\ToArrayTrait;
 use App\Repository\CourseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -12,6 +13,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[UniqueEntity(fields: ['code'], message: 'Символьный код плохой!')]
 class Course
 {
+    use ToArrayTrait;
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
