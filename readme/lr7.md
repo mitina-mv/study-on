@@ -151,8 +151,20 @@ foreach ($courses as $course) {
 
 ## 6. Оплата курсов
 
-## 6. Фикстуры и тесты
+## 7. Фикстуры и тесты
 
 
+8. Заметки
 
+Если постоянно ломается гит c ошибкой 'object file ... is empty'
+```
+find .git/objects/ -type f -empty | xargs rm
+git fetch -p
+git fsck --full
+```
 
+Если копится много контейнеров node (у меня почему-то при каждом билде создается новый контейнер, и в итоге их дофига - штук 5 минимум)
+```
+docker stop $(docker ps -aq)
+docker remove $(docker ps -aq)
+```
